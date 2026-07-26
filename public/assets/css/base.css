@@ -18,7 +18,13 @@ html {
 body {
     margin: 0;
     background-color: #ffffff;
-    /* Wix setzt Font-Smoothing global im :root-Block */
+    /* Diese beiden Zeilen sehen belanglos aus, sind es aber nicht: einzelne
+       Absaetze im Original tragen keine font_N-Klasse und erben genau diese
+       Werte. Ohne sie faellt der Browser auf 16px zurueck und solche
+       Leerzeilen werden zu hoch. */
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10px;
+    /* Font-Smoothing setzt Wix global im :root-Block */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }

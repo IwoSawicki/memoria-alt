@@ -158,6 +158,75 @@ Das ist das einzige Erfolgskriterium dieses Projekts.
 
 ---
 
+## Wie am Nachbau gearbeitet wird
+
+Der Seiteninhalt wird **nicht von Hand geschrieben, sondern erzeugt.** Grund:
+Wix legt sein vollstaendiges generiertes CSS als Inline-Bloecke in jede Seite
+(`css_masterPage`, `css_<seitenId>`). Dort stehen alle Masse exakt — 980px
+Rasterbreite, `margin:83px 0 10px`, `min-height:445px`, Hex-Farben,
+Schriftschnitte. Diese Werte werden ausgelesen statt geschaetzt.
+
+Genauso wichtig: die Auszeichnung der Textbloecke wird **woertlich**
+uebernommen. Ob ein Absatz `font_8` (15px Avenir) oder `font_7` (20px Poppins)
+traegt, ob eine Leerzeile ein eigener Absatz oder ein `<br>` im selben Absatz
+ist, ob eine Ueberschrift `<h1>` oder `<p>` ist — jedes dieser Details aendert
+die Hoehe des Blocks und verschiebt alles darunter. Beim Abschreiben sieht man
+das nicht, im Ergebnis sofort.
+
+### Werkzeuge
+
+```
+python3 tools/inspect.py css|comp|dom|tree|text <seite>   Original durchsuchen
+python3 tools/spec.py    <seite>                          Sollwerte auslesen
+python3 tools/convert.py <seite> --write                  Seite erzeugen
+python3 tools/check.py   [<seite>]                        gegen Sollwerte pruefen
+node     tools/compare.js <seite> [breite]                Geometrie messen und vergleichen
+python3 tools/build-images.py                             Bilder aufbereiten
+```
+
+`compare.js` ist die eigentliche Kontrolle: es rendert den wget-Mirror und den
+Nachbau nebeneinander im selben Browser, misst zu jeder Komponente Position und
+Groesse und meldet jede Abweichung ueber 1px. **Eine Seite gilt erst als fertig,
+wenn dieser Abgleich sauber durchlaeuft.**
+
+Nach jeder Aenderung an `tools/` alle Seiten neu erzeugen:
+
+```
+for p in index leistungen preise tierurnen-andenken pferdekremierung anfahrt kontakt; do
+    python3 tools/convert.py "$p" --write
+done
+```
+
+### Wenn ein Wert fehlt
+
+Nicht schaetzen. Erst `tools/spec.py` und `tools/inspect.py comp` befragen. Wenn
+der Wert dort nicht auftaucht, fehlt dem Extraktor eine Regel — dann den
+Extraktor erweitern, nicht den Wert erfinden. Bleibt ein Wert unbelegbar: im
+Code als `/* TODO: Wert unbestaetigt */` markieren und dem Nutzer melden.
+
+---
+
+## Bewusste Abweichungen vom Mirror
+
+Der Mirror ist an drei Stellen **kein** getreues Abbild der Live-Seite, weil er
+ohne JavaScript gerendert wird. Diese Stellen sind bewusst anders geloest und
+duerfen nicht "korrigiert" werden, ohne sie vorher an der Live-Seite zu pruefen:
+
+1. **Bestaetigungsmeldung im Kontaktformular** ("Vielen Dank fuer die
+   Uebermittlung"). Im Mirror dauerhaft sichtbar, auf der Live-Seite blendet
+   Wix sie per JavaScript aus. Im Nachbau versteckt, erscheint nach dem
+   Absenden. Dadurch ist der Formularkasten 40px niedriger als im Mirror.
+
+2. **Wiederholungsliste auf der Preisseite** (`comp-l56w7mxs`, enthaelt das
+   Wort "Gemeinschaft"). Im Mirror auf Hoehe 0 zusammengefallen und nicht
+   sichtbar. Im Nachbau ebenso. Offenbar ein liegengebliebenes leeres Element.
+
+3. **Einblend-Animationen.** Wix startet Elemente mit Deckkraft 0 und blendet
+   sie per JavaScript ein. Ohne JS bleiben sie unsichtbar. Der Nachbau zeigt
+   sie direkt; `compare.js` rendert den Mirror deshalb mit `reducedMotion`.
+
+---
+
 ## Git
 
 - Entwicklung auf Branch `claude/memoria-homepage-rebuild-ubm7s8`

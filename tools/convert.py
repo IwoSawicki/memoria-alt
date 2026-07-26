@@ -176,6 +176,8 @@ def style_vars(spec, comp_id, extra=""):
     for key in ("c", "m", "l", "ml", "w", "h", "mt", "mb"):
         if key in d:
             parts.append(f"--{key}:{d[key]}")
+    if "row" in d:
+        parts.append(f'grid-row:{d["row"]}')
     if extra:
         parts.append(extra)
     return "; ".join(parts)
@@ -201,6 +203,9 @@ class Converter:
         self.html = INS.load(page)
         self.spec = SPEC.build(page)
         self.fills = dict(re.findall(r"#(comp-[\w]+)\{[^}]*--fill:([^;}]+)", self.html))
+        # Innenhoehe der Formularfelder (Wix: --inputHeight)
+        self.input_heights = dict(
+            re.findall(r"#(comp-[\w]+)\{[^}]*--inputHeight:\s*([\d.]+px)", self.html))
         t = Tree()
         t.feed(INS.body_dom(self.html))
         self.root = t.root
@@ -234,8 +239,21 @@ class Converter:
                 return "box"
         if n.tag == "wix-dropdown-menu":
             return "menu"
+        if "wixui-google-map" in c:
+            return "map"
         if "wixui-form" in c or n.tag == "form":
             return "form"
+        if "wixui-text-input" in c:
+            return "text-input"
+        if "wixui-text-box" in c:
+            return "text-box"
+        if "wixui-checkbox" in c:
+            return "checkbox"
+        # Nur direkte Kinder pruefen: sonst gilt jeder Container, der den
+        # Knopf irgendwo unter sich hat, selbst als Knopf.
+        if n.tag == "div" and any(ch.tag == "button" and "wixui-button" in ch.attrs.get("class", "")
+                                  for ch in n.children):
+            return "submit"
         return None
 
     def content_of(self, n):
@@ -262,8 +280,17 @@ class Converter:
         body = self.emit_children(self.content_of(n), depth + 2)
         stacked = self.is_stacked(n)
         klass = "sec__content sec__content--stacked" if stacked else "sec__content"
-        gmt = self.spec.get(cid + "inlineContent", {}).get("gridMarginTop")
-        cstyle = f' style="margin-top:{gmt}"' if gmt else ""
+        gsp = self.spec.get(cid + "inlineContent", {})
+        cbits = []
+        if gsp.get("gridMinHeight"):
+            cbits.append(f'min-height:{gsp["gridMinHeight"]}')
+        if gsp.get("gridRows"):
+            cbits.append(f'grid-template-rows:{gsp["gridRows"]}')
+        if gsp.get("gridMarginTop"):
+            cbits.append(f'margin-top:{gsp["gridMarginTop"]}')
+        if gsp.get("gridMarginBottom"):
+            cbits.append(f'margin-bottom:{gsp["gridMarginBottom"]}')
+        cstyle = f' style="{"; ".join(cbits)}"' if cbits else ""
         note = ""
         if stacked:
             note = ("\n    <!-- Die beiden Streifen liegen im Original in derselben\n"
@@ -344,8 +371,12 @@ class Converter:
         bits2 = []
         if mh_val:
             bits2.append(f"--mh:{mh_val}")
+        if mh.get("gridRows"):
+            bits2.append(f'grid-template-rows:{mh["gridRows"]}')
         if mh.get("gridMarginTop"):
             bits2.append(f'margin-top:{mh["gridMarginTop"]}')
+        if mh.get("gridMarginBottom"):
+            bits2.append(f'margin-bottom:{mh["gridMarginBottom"]}')
         cstyle = f' style="{"; ".join(bits2)}"' if bits2 else ""
         body = self.emit_children(content, depth + 2) if content is not None else ""
         if body.strip():
@@ -356,13 +387,28 @@ class Converter:
                 + "\n".join(indent(i, 4) for i in inner)
                 + "\n</div>")
 
+    def im_formular(self, n):
+        """Liegt der Block unmittelbar im Formularcontainer?
+
+        Dort steht im Original nur die Bestaetigungsmeldung. Wix blendet sie
+        per JavaScript aus und erst nach dem Absenden ein — im gespiegelten
+        HTML ist sie deshalb faelschlich sichtbar.
+        """
+        for a in ancestors(n):
+            if self.kind(a) == "form":
+                return True
+            if self.kind(a) in ("column", "section", "strip"):
+                return False
+        return False
+
     def emit_richtext(self, n, depth):
         cid = n.attrs.get("id", "")
         inner = clean_rich(raw_html(self.html, cid))
         rmh = self.spec.get(cid, {}).get("richMinHeight")
         extra = f"--min-height:{rmh}" if rmh else ""
         style = style_vars(self.spec, cid, extra)
-        return (f'<div data-comp="{cid}" class="mesh rt" style="{style}">\n'
+        klass = "mesh rt form__danke" if self.im_formular(n) else "mesh rt"
+        return (f'<div data-comp="{cid}" class="{klass}" style="{style}">\n'
                 + indent(inner, 4) + "\n</div>")
 
     def emit_image(self, n, depth):
@@ -481,6 +527,142 @@ class Converter:
         return (f'<div data-comp="{cid}" class="mesh repeater" style="{style}">\n'
                 + "\n".join(indent(i, 4) for i in items) + "\n</div>")
 
+    # -- Formular --------------------------------------------------
+    #
+    # Das Original verschickt ueber Wix' eigenes Backend. Das faellt mit dem
+    # Abo weg, deshalb laeuft der Versand jetzt ueber FormSubmit.co.
+    # Aussehen, Feldreihenfolge und Beschriftungen bleiben unveraendert.
+
+    FORM_ZIEL = "https://formsubmit.co/info@tierbestattung-memoria.de"
+
+    def emit_form(self, n, depth):
+        cid = n.attrs.get("id", "")
+        content = self.content_of(n)
+        felder = self.emit_children(content, depth + 1) if content is not None else ""
+        style = style_vars(self.spec, cid)
+        return (
+            f'<div data-comp="{cid}" class="mesh" style="{style}">\n'
+            f'    <form class="form" action="{self.FORM_ZIEL}" method="POST">\n'
+            f'        <!-- Steuerfelder von FormSubmit. Werden nicht mitgeschickt,\n'
+            f'             sondern vom Dienst ausgewertet. -->\n'
+            f'        <input type="hidden" name="_subject" value="Neue Nachricht ueber tierbestattung-memoria.de">\n'
+            f'        <input type="hidden" name="_template" value="table">\n'
+            f'        <input type="hidden" name="_captcha" value="false">\n'
+            f'        <input type="hidden" name="_next" value="https://www.tierbestattung-memoria.de/kontakt?gesendet=1">\n'
+            f'        <input type="text" name="_honey" class="honey" tabindex="-1" autocomplete="off">\n'
+            f'{indent(felder, 8)}\n'
+            f'    </form>\n</div>')
+
+    def _label_von(self, n, klasse):
+        for el in n.find_all(lambda x: klasse in x.attrs.get("class", "")):
+            return el.text.strip()
+        return ""
+
+    def emit_text_input(self, n, depth):
+        cid = n.attrs.get("id", "")
+        label = self._label_von(n, "wixui-text-input__label")
+        feld = None
+        for i in n.find_all(lambda x: x.tag == "input"):
+            feld = i
+            break
+        name = (feld.attrs.get("name") if feld else "") or cid
+        pflicht = feld is not None and "required" in feld.attrs
+        maxlen = feld.attrs.get("maxLength") or feld.attrs.get("maxlength") if feld else None
+        typ = "text"
+        if name.lower() in ("email", "e-mail"):
+            typ = "email"
+        elif name.lower() in ("fon", "telefon", "phone"):
+            typ = "tel"
+        attrs = [f'type="{typ}"', f'name="{H.escape(name)}"', f'id="feld-{cid}"',
+                 'class="field__input"', 'autocomplete="off"']
+        if maxlen:
+            attrs.append(f'maxlength="{maxlen}"')
+        if pflicht:
+            attrs.append("required")
+        ih = self.input_heights.get(cid)
+        style = style_vars(self.spec, cid, f"--eingabe-hoehe:{ih}" if ih else "")
+        return (f'<div data-comp="{cid}" class="mesh field" style="{style}">\n'
+                f'    <label class="field__label" for="feld-{cid}">{H.escape(label)}</label>\n'
+                f'    <div class="field__box"><input {" ".join(attrs)}></div>\n</div>')
+
+    def emit_text_box(self, n, depth):
+        cid = n.attrs.get("id", "")
+        label = self._label_von(n, "wixui-text-box__label")
+        ih = self.input_heights.get(cid)
+        style = style_vars(self.spec, cid, f"--eingabe-hoehe:{ih}" if ih else "")
+        return (f'<div data-comp="{cid}" class="mesh field" style="{style}">\n'
+                f'    <label class="field__label" for="feld-{cid}">{H.escape(label)}</label>\n'
+                f'    <textarea name="Nachricht" id="feld-{cid}" class="field__textarea"></textarea>\n'
+                f'</div>')
+
+    def emit_checkbox(self, n, depth):
+        cid = n.attrs.get("id", "")
+        text = ""
+        for el in n.find_all(lambda x: x.attrs.get("data-testid") == "text"):
+            text = el.text.strip()
+            break
+        # Der Hinweis verweist im Original auf die Datenschutzerklaerung.
+        beschriftung = H.escape(text)
+        for wort in ("Datenschutzerkl&auml;rung", "Datenschutzerkl\u00e4rung"):
+            if wort in beschriftung:
+                beschriftung = beschriftung.replace(
+                    wort, '<a href="anfahrt.html">' + wort + "</a>", 1)
+                break
+        style = style_vars(self.spec, cid)
+        return ('<div data-comp="' + cid + '" class="mesh" style="' + style + '">\n'
+                '    <label class="check">\n'
+                '        <input type="checkbox" name="Datenschutz zur Kenntnis genommen"'
+                ' value="ja" class="check__input" required>\n'
+                '        <span class="check__label">' + beschriftung + '</span>\n'
+                '    </label>\n</div>')
+
+    def emit_submit(self, n, depth):
+        cid = n.attrs.get("id", "")
+        label = ""
+        for b in n.find_all(lambda x: "wixui-button__label" in x.attrs.get("class", "")):
+            label = b.text.strip()
+            break
+        style = style_vars(self.spec, cid)
+        return (f'<div data-comp="{cid}" class="mesh" style="{style}">\n'
+                f'    <button type="submit" class="submit">{H.escape(label)}</button>\n</div>')
+
+    def emit_map(self, n, depth):
+        """Die Karte auf der Kontaktseite.
+
+        Im Original liefert Wix eine eingebettete Google-Karte. Der Kasten ist
+        470px hoch und laeuft ueber die volle Breite. Nachgebaut mit dem
+        klassischen Google-Maps-Einbettungslink, der ohne Schluessel auskommt.
+        """
+        cid = n.attrs.get("id", "")
+        d = self.spec.get(cid, {})
+        bits = []
+        for k in ("mt", "mb"):
+            if d.get(k) and d[k] != "0px":
+                bits.append(f"--{k}:{d[k]}")
+        if d.get("h"):
+            bits.append(f'--karte-hoehe:{d["h"]}')
+        adresse = "Memoria Tierbestattung GmbH, Konrad-Zuse-Str. 3, 69514 Laudenbach"
+        style = "; ".join(bits)
+        return (f'<div data-comp="{cid}" class="karte" style="{style}">\n'
+                f'    <iframe title="Karte: {adresse}" loading="lazy"\n'
+                f'            referrerpolicy="no-referrer-when-downgrade"\n'
+                f'            src="https://maps.google.com/maps?q='
+                f'Konrad-Zuse-Str.+3,+69514+Laudenbach&amp;z=15&amp;output=embed"></iframe>\n'
+                f'</div>')
+
+    def emit_generic(self, n, depth):
+        """Container ohne eigene Wix-Klasse, der aber eine Position hat.
+
+        Ohne diesen Zweig ginge seine Positionsangabe verloren und der
+        Inhalt rutschte an den linken Rand.
+        """
+        cid = n.attrs.get("id", "")
+        content = self.content_of(n)
+        body = self.emit_children(content, depth + 1) if content is not None else ""
+        style = style_vars(self.spec, cid)
+        return (f'<div data-comp="{cid}" class="mesh" style="{style}">\n'
+                f'    <div class="box__content">\n{indent(body, 4)}\n    </div>\n</div>')
+
     def emit_children(self, container, depth):
         if container is None:
             return ""
@@ -513,9 +695,24 @@ class Converter:
             return self.emit_box(n, depth)
         if k == "repeater":
             return self.emit_repeater(n, depth)
+        if k == "map":
+            return self.emit_map(n, depth)
         if k == "form":
-            return f'<!-- TODO Formular {n.attrs.get("id","")} -->'
-        # unbekannter Container: weiter nach unten
+            return self.emit_form(n, depth)
+        if k == "text-input":
+            return self.emit_text_input(n, depth)
+        if k == "text-box":
+            return self.emit_text_box(n, depth)
+        if k == "checkbox":
+            return self.emit_checkbox(n, depth)
+        if k == "submit":
+            return self.emit_submit(n, depth)
+        # Container ohne eigene Wix-Klasse: wenn er eine eigene Position hat,
+        # muss er erhalten bleiben, sonst verliert sein Inhalt den Bezug.
+        cid = n.attrs.get("id", "")
+        d = self.spec.get(cid, {})
+        if cid and self.content_of(n) is not None and ("c" in d or "ml" in d):
+            return self.emit_generic(n, depth)
         parts = [self.emit_node(c, depth) for c in n.children]
         return "\n".join(p for p in parts if p)
 
@@ -545,6 +742,9 @@ class Converter:
                 f'{indent(body, 4)}\n    </div>\n</footer>')
 
     def head(self):
+        braucht_formular = "wixui-form" in self.html
+        form_css = ('<link rel="stylesheet" href="assets/css/form.css">\n'
+                    if braucht_formular else "")
         t = re.search(r"<title>(.*?)</title>", self.html, re.S)
         d = re.search(r'<meta name="description" content="(.*?)"', self.html, re.S)
         title = t.group(1).strip() if t else ""
@@ -558,14 +758,29 @@ class Converter:
                 f'<link rel="stylesheet" href="assets/css/fonts.css">\n'
                 f'<link rel="stylesheet" href="assets/css/tokens.css">\n'
                 f'<link rel="stylesheet" href="assets/css/base.css">\n'
-                f'<link rel="stylesheet" href="assets/css/layout.css">\n'
+                f'<link rel="stylesheet" href="assets/css/layout.css">\n{form_css}'
                 f'</head>\n<body>\n<div class="site">')
 
     def full_page(self):
         return (self.head() + "\n\n"
                 + self.emit_header() + "\n\n<main>\n\n"
                 + self.run() + "\n\n</main>\n\n"
-                + self.emit_footer() + "\n\n</div>\n</body>\n</html>\n")
+                + self.emit_footer() + "\n\n</div>\n"
+                + self.danke_skript()
+                + "</body>\n</html>\n")
+
+    def danke_skript(self):
+        if "wixui-form" not in self.html:
+            return ""
+        return (
+            "\n<script>\n"
+            "// Nach dem Absenden leitet FormSubmit auf diese Seite zurueck und\n"
+            "// haengt ?gesendet=1 an. Dann erscheint die Bestaetigung — im\n"
+            "// Original uebernimmt das Wix' Formular-Baustein.\n"
+            "if (new URLSearchParams(location.search).has('gesendet')) {\n"
+            "    document.querySelectorAll('.form__danke')\n"
+            "        .forEach(function (el) { el.classList.add('is-visible'); });\n"
+            "}\n</script>\n")
 
     def run(self):
         secs = self.root.find_all(lambda x: self.kind(x) == "section")

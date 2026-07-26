@@ -89,6 +89,11 @@ def build(page):
                     d["ml"] = "0px" if ml == "0" else ml
                 lm = LEFT_RE.search(blk1)
                 d["l"] = lm.group(1) if lm else "0px"
+                # Rasterzeile: zwei Bloecke koennen nebeneinander in
+                # derselben Zeile liegen (auf der Kontaktseite Email und Fon).
+                ga = re.search(r"grid-area:\s*(\d+)\s*/", blk1)
+                if ga:
+                    d["row"] = ga.group(1)
 
         # Mindesthoehe eines Rastercontainers
         mesh = re.search(r"data-mesh-id=([\w-]+)-gridContainer", sel)
@@ -99,10 +104,14 @@ def build(page):
             rows = re.search(r"grid-template-rows:\s*([^;]+)", blk1)
             if rows:
                 slot(mesh.group(1))["gridRows"] = rows.group(1).strip()
-            # Wix zieht einzelne Abschnitte per negativem Abstand nach oben.
+            # Wix zieht einzelne Bereiche per negativem Abstand zusammen —
+            # oben wie unten. Fehlt einer davon, stimmt die Hoehe nicht.
             gmt = re.search(r"(?:^|;)margin-top:\s*(-?[\d.]+px)", blk1)
             if gmt and gmt.group(1) != "0px":
                 slot(mesh.group(1))["gridMarginTop"] = gmt.group(1)
+            gmb = re.search(r"(?:^|;)margin-bottom:\s*(-?[\d.]+px)", blk1)
+            if gmb and gmb.group(1) != "0px":
+                slot(mesh.group(1))["gridMarginBottom"] = gmb.group(1)
 
         mesh2 = re.search(r"data-mesh-id=([\w-]+)\]", sel)
         if mesh2 and "gridContainer" not in sel:
@@ -134,6 +143,9 @@ def build(page):
                 d["w"] = wh.group("w")
                 if wh.group("h") != "auto":
                     d["h"] = wh.group("h")
+            if re.search(r"(?:^|;)height:\s*auto", blk1):
+                # Eine spaetere Regel setzt die Hoehe wieder auf automatisch.
+                d.pop("h", None)
             else:
                 w = W_RE.search(blk1)
                 if w and "column-width" not in blk1:
@@ -163,9 +175,9 @@ def main():
         return 0
     for cid, d in data.items():
         parts = []
-        for k in ("kind", "c", "m", "l", "ml", "w", "h", "mt", "mb", "flex", "bg",
+        for k in ("kind", "c", "m", "l", "ml", "w", "h", "row", "mt", "mb", "flex", "bg",
                   "boxBg", "boxAlpha", "boxRadius", "boxBorderW", "boxBorderC",
-                  "gridMinHeight", "gridMarginTop", "gridRows", "minHeight",
+                  "gridMinHeight", "gridMarginTop", "gridMarginBottom", "gridRows", "minHeight",
                   "richMinHeight"):
             if k in d:
                 parts.append(f"{k}={d[k]}")
