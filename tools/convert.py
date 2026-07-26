@@ -128,6 +128,31 @@ for _mid, (_name, _purpose) in IMG.MAP.items():
     MEDIA_TO_FILE[_mid] = _name + "." + _mid.rsplit(".", 1)[-1]
 
 
+SEITEN_PFAD = {
+    "index.html": "/",
+    "leistungen.html": "/leistungen",
+    "preise.html": "/preise",
+    "tierurnen-andenken.html": "/tierurnen-andenken",
+    "pferdekremierung.html": "/pferdekremierung",
+    "kontakt.html": "/kontakt",
+    "anfahrt.html": "/anfahrt",
+}
+
+
+def link_umschreiben(href):
+    """Interne Verweise auf die Adressform der Live-Seite bringen.
+
+    wget hat beim Spiegeln aus /leistungen ein leistungen.html gemacht.
+    Die Live-Seite benutzt aber Adressen ohne Endung, und genau die stehen
+    in Suchmaschinen und in fremden Verlinkungen. Also zurueckdrehen.
+    """
+    if href in SEITEN_PFAD:
+        return SEITEN_PFAD[href]
+    if href.startswith("_files/"):
+        return "/" + href
+    return href
+
+
 def local_image(src):
     """Wix-Bild-URL -> lokaler Dateiname."""
     for mid, fname in MEDIA_TO_FILE.items():
@@ -159,6 +184,16 @@ def clean_rich(inner):
     s = re.sub(r'\s*data-testid="[^"]*"', "", s)
     s = re.sub(r'class="\s*"', "", s)
     s = re.sub(r"\n\s*\n+", "\n", s)
+    for datei, ziel in SEITEN_PFAD.items():
+        s = s.replace(f'href="{datei}"', f'href="{ziel}"')
+    s = re.sub(r'href="(_files/[^"]+)"', r'href="/\1"', s)
+    # Einzige inhaltliche Korrektur am Original: auf der Kontaktseite steht im
+    # Verweisziel eine Domain mit doppelter Endung
+    # (mailto:info@tierbestattung-memoria.de.de). Der sichtbare Text ist
+    # richtig, nur das Ziel ist falsch — Anfragen darueber kommen nie an.
+    # Am Aussehen aendert die Korrektur nichts.
+    s = s.replace("mailto:info@tierbestattung-memoria.de.de",
+                  "mailto:info@tierbestattung-memoria.de")
     return s.strip()
 
 
@@ -427,7 +462,7 @@ class Converter:
                f'style="{fit}">')
         if links:
             a = links[0]
-            href = a.attrs.get("href", "")
+            href = link_umschreiben(a.attrs.get("href", ""))
             rel = a.attrs.get("rel", "")
             target = a.attrs.get("target", "")
             extra = (f' target="{target}"' if target else "") + (f' rel="{rel}"' if rel else "")
@@ -456,7 +491,7 @@ class Converter:
         if not links:
             return ""
         a = links[0]
-        href = a.attrs.get("href", "")
+        href = link_umschreiben(a.attrs.get("href", ""))
         label = ""
         for sp in n.find_all(lambda x: x.tag == "span" and "__label" in x.attrs.get("class", "")):
             label = sp.text
@@ -483,7 +518,7 @@ class Converter:
             if not links:
                 continue
             a = links[0]
-            href = a.attrs.get("href", "")
+            href = link_umschreiben(a.attrs.get("href", ""))
             label = ""
             for pp in li.find_all(lambda x: x.tag == "p"):
                 label = pp.text.strip()
@@ -606,7 +641,7 @@ class Converter:
         for wort in ("Datenschutzerkl&auml;rung", "Datenschutzerkl\u00e4rung"):
             if wort in beschriftung:
                 beschriftung = beschriftung.replace(
-                    wort, '<a href="anfahrt.html">' + wort + "</a>", 1)
+                    wort, '<a href="/anfahrt">' + wort + "</a>", 1)
                 break
         style = style_vars(self.spec, cid)
         return ('<div data-comp="' + cid + '" class="mesh" style="' + style + '">\n'
@@ -741,25 +776,76 @@ class Converter:
                 f'    <div class="footer__inner" style="min-height:{mh}">\n'
                 f'{indent(body, 4)}\n    </div>\n</footer>')
 
+    # Zuordnung Dateiname -> Pfad auf der Live-Seite. Die Originalseite
+    # arbeitet mit Adressen ohne Endung (og:url zeigt /kontakt, nicht
+    # /kontakt.html). Das wird uebernommen, damit bestehende Links und
+    # Suchmaschinen-Eintraege weiter stimmen.
+    BASIS_URL = "https://www.tierbestattung-memoria.de"
+
+    def pfad(self, seite):
+        return "/" if seite == "index" else "/" + seite
+
     def head(self):
         braucht_formular = "wixui-form" in self.html
         form_css = ('<link rel="stylesheet" href="assets/css/form.css">\n'
                     if braucht_formular else "")
-        t = re.search(r"<title>(.*?)</title>", self.html, re.S)
-        d = re.search(r'<meta name="description" content="(.*?)"', self.html, re.S)
-        title = t.group(1).strip() if t else ""
-        desc = d.group(1).strip() if d else ""
-        meta_desc = f'\n<meta name="description" content="{desc}">' if desc else ""
-        return (f'<!DOCTYPE html>\n<html lang="de">\n<head>\n'
-                f'<meta charset="utf-8">\n'
-                f'<meta name="viewport" content="width=device-width, initial-scale=1">\n'
-                f'<title>{title}</title>{meta_desc}\n'
-                f'<link rel="icon" href="assets/img/favicon.png">\n'
-                f'<link rel="stylesheet" href="assets/css/fonts.css">\n'
-                f'<link rel="stylesheet" href="assets/css/tokens.css">\n'
-                f'<link rel="stylesheet" href="assets/css/base.css">\n'
-                f'<link rel="stylesheet" href="assets/css/layout.css">\n{form_css}'
-                f'</head>\n<body>\n<div class="site">')
+
+        def meta(muster, standard=""):
+            m = re.search(muster, self.html, re.S)
+            return m.group(1).strip() if m else standard
+
+        titel = meta(r"<title>(.*?)</title>")
+        beschreibung = meta(r'<meta name="description" content="(.*?)"')
+        og_titel = meta(r'<meta property="og:title" content="(.*?)"', titel)
+        og_besch = meta(r'<meta property="og:description" content="(.*?)"', beschreibung)
+        og_seite = meta(r'<meta property="og:site_name" content="(.*?)"')
+        tw_karte = meta(r'<meta name="twitter:card" content="(.*?)"', "summary_large_image")
+        url = self.BASIS_URL + self.pfad(self.page)
+
+        zeilen = [
+            "<!DOCTYPE html>", '<html lang="de">', "<head>",
+            '<meta charset="utf-8">',
+            # Notbehelf bis die Mobilfassung vorliegt.
+            # Die Seite ist nicht responsiv und mindestens 980px breit. Mit
+            # width=device-width schneidet das Handy den Inhalt ab und ein
+            # Grossteil der Seite ist unerreichbar. Mit width=980 skaliert das
+            # Handy die ganze Seite herunter: alles ist da und liest sich
+            # zoombar — so wie jede nicht-responsive Seite auf dem Handy.
+            # Auf dem Desktop hat diese Angabe keine Wirkung.
+            # Sobald der Mobil-Mirror vorliegt (tools/mirror-mobile.sh), wird
+            # hier wieder width=device-width gesetzt und die echte
+            # Mobilfassung gebaut.
+            '<meta name="viewport" content="width=980, initial-scale=0.4">',
+            f"<title>{titel}</title>",
+        ]
+        if beschreibung:
+            zeilen.append(f'<meta name="description" content="{beschreibung}">')
+        zeilen.append(f'<link rel="canonical" href="{url}">')
+        zeilen += [
+            f'<meta property="og:title" content="{og_titel}">',
+        ]
+        if og_besch:
+            zeilen.append(f'<meta property="og:description" content="{og_besch}">')
+        zeilen += [
+            f'<meta property="og:url" content="{url}">',
+            f'<meta property="og:site_name" content="{og_seite}">',
+            '<meta property="og:type" content="website">',
+            f'<meta name="twitter:card" content="{tw_karte}">',
+            f'<meta name="twitter:title" content="{og_titel}">',
+        ]
+        if og_besch:
+            zeilen.append(f'<meta name="twitter:description" content="{og_besch}">')
+        zeilen += [
+            '<link rel="icon" sizes="192x192" href="assets/img/favicon.png">',
+            '<link rel="shortcut icon" href="assets/img/favicon.png">',
+            '<link rel="apple-touch-icon" href="assets/img/favicon.png">',
+            '<link rel="stylesheet" href="assets/css/fonts.css">',
+            '<link rel="stylesheet" href="assets/css/tokens.css">',
+            '<link rel="stylesheet" href="assets/css/base.css">',
+            '<link rel="stylesheet" href="assets/css/layout.css">',
+        ]
+        kopf = "\n".join(zeilen) + "\n" + form_css
+        return kopf + '</head>\n<body>\n<div class="site">'
 
     def full_page(self):
         return (self.head() + "\n\n"
