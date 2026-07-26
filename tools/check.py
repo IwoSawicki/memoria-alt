@@ -97,6 +97,13 @@ def check_page(build_file, orig_page):
     for cid, gvals in sorted(got.items()):
         wvals = want.get(cid)
         if wvals is None:
+            # Eintraege einer Wiederholungsliste heissen comp-xxx__<schluessel>
+            # und werden im Original ueber einen Praefix-Selektor angesprochen.
+            for key in want:
+                if key.endswith("__") and cid.startswith(key):
+                    wvals = want[key]
+                    break
+        if wvals is None:
             problems.append(f"  {cid}: im Original nicht gefunden (Tippfehler in data-comp?)")
             continue
         keys = STRIP_VARS if str(wvals.get("kind", "")).startswith("strip") else VARS
