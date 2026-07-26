@@ -4,4 +4,6 @@ Thumbs.db
 
 # Playwright wird nur fuer tools/compare.js gebraucht und lokal installiert,
 # siehe Hinweis in CLAUDE.md. Nicht ins Repo.
-node_modules/
+# Ohne Schraegstrich am Ende: so greift das Muster auch, wenn node_modules
+# ein Symlink auf eine Installation ausserhalb des Repos ist.
+node_modules
