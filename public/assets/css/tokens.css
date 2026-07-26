@@ -1,0 +1,171 @@
+/* Design-Tokens — 1:1 aus dem Wix-Original (css_masterPage) uebernommen.
+   Diese Datei ist generiert, nicht von Hand geschrieben: jeder Wert stammt
+   woertlich aus der Originalseite. Nicht manuell "aufraeumen" — die krummen
+   Werte sind Absicht, sie sind das Original. */
+
+:root {
+    /* Layout */
+    --site-width:980px;
+
+    /* Farbpalette */
+    --color_0:255,255,255;
+    --color_1:30,30,30;
+    --color_2:180,106,44;
+    --color_3:105,102,102;
+    --color_4:245,245,245;
+    --color_5:250,232,219;
+    --color_6:255,255,255;
+    --color_7:199,199,199;
+    --color_8:143,143,143;
+    --color_9:86,86,86;
+    --color_10:30,30,30;
+    --color_11:245,245,245;
+    --color_12:219,219,219;
+    --color_13:143,143,143;
+    --color_14:86,86,86;
+    --color_15:30,30,30;
+    --color_16:236,205,178;
+    --color_17:218,155,102;
+    --color_18:162,96,40;
+    --color_19:120,71,29;
+    --color_20:60,35,15;
+    --color_21:148,255,97;
+    --color_22:127,227,79;
+    --color_23:100,179,62;
+    --color_24:80,143,50;
+    --color_25:56,99,35;
+    --color_26:87,194,255;
+    --color_27:54,164,227;
+    --color_28:34,121,171;
+    --color_29:22,84,120;
+    --color_30:13,52,74;
+    --color_31:252,139,139;
+    --color_32:252,53,53;
+    --color_33:201,40,40;
+    --color_34:150,24,24;
+    --color_35:103,14,14;
+    --color_36:245,245,245;
+    --color_37:30,30,30;
+    --color_38:219,219,219;
+    --color_39:143,143,143;
+    --color_40:86,86,86;
+    --color_41:162,96,40;
+    --color_42:30,30,30;
+    --color_43:143,143,143;
+    --color_44:245,245,245;
+    --color_45:30,30,30;
+    --color_46:30,30,30;
+    --color_47:86,86,86;
+    --color_48:162,96,40;
+    --color_49:162,96,40;
+    --color_50:245,245,245;
+    --color_51:245,245,245;
+    --color_52:162,96,40;
+    --color_53:162,96,40;
+    --color_54:143,143,143;
+    --color_55:143,143,143;
+    --color_56:245,245,245;
+    --color_57:245,245,245;
+    --color_58:162,96,40;
+    --color_59:162,96,40;
+    --color_60:162,96,40;
+    --color_61:162,96,40;
+    --color_62:245,245,245;
+    --color_63:245,245,245;
+    --color_64:143,143,143;
+    --color_65:143,143,143;
+
+    /* Schrift-Presets */
+    --font_0:normal normal normal 88px/1.4em poppins-semibold,poppins,sans-serif;
+    --font_1:normal normal normal 14px/1.79em poppins-extralight,poppins,sans-serif;
+    --font_2:normal normal normal 72px/1.4em poppins-semibold,poppins,sans-serif;
+    --font_3:normal normal normal 50px/1.4em poppins-semibold,poppins,sans-serif;
+    --font_4:normal normal normal 40px/1.4em poppins-semibold,poppins,sans-serif;
+    --font_5:normal normal normal 28px/1.4em poppins-semibold,poppins,sans-serif;
+    --font_6:normal normal normal 22px/1.4em poppins-semibold,poppins,sans-serif;
+    --font_7:normal normal normal 20px/1.67em poppins-semibold,poppins,sans-serif;
+    --font_8:normal normal normal 15px/1.88em avenir-lt-w01_35-light1475496,sans-serif;
+    --font_9:normal normal normal 14px/1.4em poppins-extralight,poppins,sans-serif;
+    --font_10:normal normal normal 14px/1.79em poppins-extralight,poppins,sans-serif;
+}
+
+/* Text-Presets. .font_8 ist der Fliesstext der Seite. */
+.font_0 { font:var(--font_0);color:rgb(var(--color_45));letter-spacing:0em; }
+.font_1 { font:var(--font_1);color:rgb(var(--color_45));letter-spacing:0em; }
+.font_2 { font:var(--font_2);color:rgb(var(--color_45));letter-spacing:0em; }
+.font_3 { font:var(--font_3);color:rgb(var(--color_45));letter-spacing:0em; }
+.font_4 { font:var(--font_4);color:rgb(var(--color_45));letter-spacing:0em; }
+.font_5 { font:var(--font_5);color:rgb(var(--color_45));letter-spacing:0em; }
+.font_6 { font:var(--font_6);color:rgb(var(--color_45));letter-spacing:0em; }
+.font_7 { font:var(--font_7);color:rgb(var(--color_15));letter-spacing:0em; }
+.font_8 { font:var(--font_8);color:rgb(135, 133, 117);letter-spacing:0em; }
+.font_9 { font:var(--font_9);color:rgb(var(--color_15));letter-spacing:0em; }
+.font_10 { font:var(--font_10);color:rgb(var(--color_15));letter-spacing:0em; }
+
+/* Farb-Utilities */
+.color_0 { color:rgb(var(--color_0)); }
+.color_1 { color:rgb(var(--color_1)); }
+.color_2 { color:rgb(var(--color_2)); }
+.color_3 { color:rgb(var(--color_3)); }
+.color_4 { color:rgb(var(--color_4)); }
+.color_5 { color:rgb(var(--color_5)); }
+.color_6 { color:rgb(var(--color_6)); }
+.color_7 { color:rgb(var(--color_7)); }
+.color_8 { color:rgb(var(--color_8)); }
+.color_9 { color:rgb(var(--color_9)); }
+.color_10 { color:rgb(var(--color_10)); }
+.color_11 { color:rgb(var(--color_11)); }
+.color_12 { color:rgb(var(--color_12)); }
+.color_13 { color:rgb(var(--color_13)); }
+.color_14 { color:rgb(var(--color_14)); }
+.color_15 { color:rgb(var(--color_15)); }
+.color_16 { color:rgb(var(--color_16)); }
+.color_17 { color:rgb(var(--color_17)); }
+.color_18 { color:rgb(var(--color_18)); }
+.color_19 { color:rgb(var(--color_19)); }
+.color_20 { color:rgb(var(--color_20)); }
+.color_21 { color:rgb(var(--color_21)); }
+.color_22 { color:rgb(var(--color_22)); }
+.color_23 { color:rgb(var(--color_23)); }
+.color_24 { color:rgb(var(--color_24)); }
+.color_25 { color:rgb(var(--color_25)); }
+.color_26 { color:rgb(var(--color_26)); }
+.color_27 { color:rgb(var(--color_27)); }
+.color_28 { color:rgb(var(--color_28)); }
+.color_29 { color:rgb(var(--color_29)); }
+.color_30 { color:rgb(var(--color_30)); }
+.color_31 { color:rgb(var(--color_31)); }
+.color_32 { color:rgb(var(--color_32)); }
+.color_33 { color:rgb(var(--color_33)); }
+.color_34 { color:rgb(var(--color_34)); }
+.color_35 { color:rgb(var(--color_35)); }
+.color_36 { color:rgb(var(--color_36)); }
+.color_37 { color:rgb(var(--color_37)); }
+.color_38 { color:rgb(var(--color_38)); }
+.color_39 { color:rgb(var(--color_39)); }
+.color_40 { color:rgb(var(--color_40)); }
+.color_41 { color:rgb(var(--color_41)); }
+.color_42 { color:rgb(var(--color_42)); }
+.color_43 { color:rgb(var(--color_43)); }
+.color_44 { color:rgb(var(--color_44)); }
+.color_45 { color:rgb(var(--color_45)); }
+.color_46 { color:rgb(var(--color_46)); }
+.color_47 { color:rgb(var(--color_47)); }
+.color_48 { color:rgb(var(--color_48)); }
+.color_49 { color:rgb(var(--color_49)); }
+.color_50 { color:rgb(var(--color_50)); }
+.color_51 { color:rgb(var(--color_51)); }
+.color_52 { color:rgb(var(--color_52)); }
+.color_53 { color:rgb(var(--color_53)); }
+.color_54 { color:rgb(var(--color_54)); }
+.color_55 { color:rgb(var(--color_55)); }
+.color_56 { color:rgb(var(--color_56)); }
+.color_57 { color:rgb(var(--color_57)); }
+.color_58 { color:rgb(var(--color_58)); }
+.color_59 { color:rgb(var(--color_59)); }
+.color_60 { color:rgb(var(--color_60)); }
+.color_61 { color:rgb(var(--color_61)); }
+.color_62 { color:rgb(var(--color_62)); }
+.color_63 { color:rgb(var(--color_63)); }
+.color_64 { color:rgb(var(--color_64)); }
+.color_65 { color:rgb(var(--color_65)); }

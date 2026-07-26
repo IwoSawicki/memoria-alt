@@ -1,0 +1,75 @@
+
+────────────────────────────────────────────────────────────────────────
+▸ comp-lypz02jq
+    [mesh] position:relative; margin:0px 0px 0 calc((100% - 980px) * 0.5); left:0px; grid-area:1 / 1 / 2 / 2; justify-self:start; align-self:start
+     left:0; margin-left:0; width:100%; min-width:0
+     --bg-overlay-color:transparent; --bg-gradient:none; min-width:980px
+    LINK mailto:info@tierbestattung-memoria.de?subject=PFERDEKREMIERUNG -> 'info@tierbestattung-memoria.de'
+    STIL font-size:35px; line-height:1.35em; text-align:center;
+    STIL color:#878575;
+    STIL font-size:35px;
+    STIL font-family:avenir-lt-w01_85-heavy1475544,avenir-lt-w05_85-heavy,sans-serif;
+    STIL letter-spacing:normal;
+    STIL font-size:15px;
+    STIL font-family:avenir-lt-w01_35-light1475496,avenir-lt-w05_35-light,sans-serif;
+    STIL text-align:center; font-size:15px;
+
+  ──────────────────────────────────────────────────────────────────────
+  ▸ comp-lypz02jqinlineContent
+      [mesh] height:auto; width:100%
+      LINK mailto:info@tierbestattung-memoria.de?subject=PFERDEKREMIERUNG -> 'info@tierbestattung-memoria.de'
+      STIL font-size:35px; line-height:1.35em; text-align:center;
+      STIL color:#878575;
+      STIL font-size:35px;
+      STIL font-family:avenir-lt-w01_85-heavy1475544,avenir-lt-w05_85-heavy,sans-serif;
+      STIL letter-spacing:normal;
+      STIL font-size:15px;
+      STIL font-family:avenir-lt-w01_35-light1475496,avenir-lt-w05_35-light,sans-serif;
+      STIL text-align:center; font-size:15px;
+
+    ────────────────────────────────────────────────────────────────────
+    ▸ comp-lypz9hki
+        [mesh] position:relative; margin:96px 0px 28px calc((100% - 980px) * 0.5); left:0px; grid-area:1 / 1 / 2 / 2; justify-self:start; align-self:start
+         --alpha-backgroundColor:0
+         width:980px; height:auto
+        STIL font-size:35px; line-height:1.35em; text-align:center;
+        STIL color:#878575;
+        STIL font-size:35px;
+        STIL font-family:avenir-lt-w01_85-heavy1475544,avenir-lt-w05_85-heavy,sans-serif;
+        STIL letter-spacing:normal;
+        STIL font-size:15px;
+        STIL font-family:avenir-lt-w01_35-light1475496,avenir-lt-w05_35-light,sans-serif;
+        TEXT 'Informationen zur Pferdekremierung (Stand : Januar 2022)'
+
+    ────────────────────────────────────────────────────────────────────
+    ▸ comp-lypz9hkl
+        [mesh] position:relative; margin:0px 0px 0px calc((100% - 980px) * 0.5); left:0px; grid-area:2 / 1 / 3 / 2; justify-self:start; align-self:start
+         --alpha-backgroundColor:0
+         width:980px; height:auto
+         --min-height:653px
+        LINK mailto:info@tierbestattung-memoria.de?subject=PFERDEKREMIERUNG -> 'info@tierbestattung-memoria.de'
+        STIL text-align:center; font-size:15px;
+        STIL font-weight:bold;
+        STIL text-decoration:underline;
+        STIL font-size:15px;
+        TEXT 'Sehr geehrte Damen und Herren, mit Änderung der Rechtslage für die Kremierung von Equiden in Deutschland, ist die Feuerbestattung für Pferde und ihre Artgenossen 2017 möglich geworden. Es ist der Wunsch vieler Tierhalter, auch hier im Inland eine individuelle und liebevolle Kremierung als Alternative zur Tierkörperbeseitigungsanstalt wählen zu können. Daher haben wir uns dazu entschlossen, neben d'
+
+────────────────────────────────────────────────────────────────────────
+▸ comp-lypzigpg
+    [mesh] position:relative; margin:0px 0px 0 calc((100% - 980px) * 0.5); left:0px; grid-area:2 / 1 / 3 / 2; justify-self:start; align-self:start
+     left:0; margin-left:0; width:100%; min-width:0
+     --bg-overlay-color:rgb(255, 255, 255); --bg-gradient:none; min-width:980px
+    BILD 9d970e_4171dcf38b454e389f119377c2543260~mv2.jpg  1931x1048  fit=cover  alt='Pferd Abendsonne.jpg'
+
+  ──────────────────────────────────────────────────────────────────────
+  ▸ comp-lypzigpginlineContent
+      [mesh] height:auto; width:100%
+      BILD 9d970e_4171dcf38b454e389f119377c2543260~mv2.jpg  1931x1048  fit=cover  alt='Pferd Abendsonne.jpg'
+
+    ────────────────────────────────────────────────────────────────────
+    ▸ comp-lypzcxdg
+        [mesh] position:relative; margin:0px 0px 0px calc((100% - 980px) * 0.5); left:-475px; grid-area:1 / 1 / 2 / 2; justify-self:start; align-self:start
+         --contentPaddingLeft:0px; --contentPaddingRight:0px; --contentPaddingTop:0px; --contentPaddingBottom:0px
+         width:1931px; height:1048px
+         --height:1048px; --width:1931px
+        BILD 9d970e_4171dcf38b454e389f119377c2543260~mv2.jpg  1931x1048  fit=cover  alt='Pferd Abendsonne.jpg'

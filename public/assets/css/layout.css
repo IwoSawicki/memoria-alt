@@ -1,0 +1,244 @@
+/* Wix' Layout-System, exakt nachgebildet.
+   ------------------------------------------------------------------
+   Die Originalseite ist nicht responsiv, sondern ein "Mesh"-Raster:
+   Abschnitte laufen ueber die volle Breite, darin liegen Streifen mit
+   Spalten, und darin sitzen Inhaltsbloecke an fest berechneten Positionen.
+
+   Die Positionsformel von Wix lautet immer:
+
+       margin-left: calc((100% - <Bezugsbreite>) * <Faktor>);
+       left:        <Versatz>;
+       width:       <Breite>;
+
+   Der Faktor ist 0 (linksbuendig), 0.5 (zentriert) oder 1 (rechtsbuendig)
+   und unterscheidet sich von Block zu Block — auf der Startseite nutzen die
+   drei Kundenstimmen zum Beispiel alle drei Varianten nebeneinander.
+
+   Deshalb wird die Formel hier eins zu eins uebernommen und ueber CSS-
+   Variablen gefuettert, statt die Endposition selbst auszurechnen. So kann
+   sich beim Uebertragen kein Rundungs- oder Denkfehler einschleichen. */
+
+/* ---------- Abschnitt: volle Breite, eigene Hintergrundfarbe ---------- */
+
+.sec {
+    width: 100%;
+    min-width: 980px;
+    position: relative;
+    /* Eigener Blockkontext: sonst wandert der negative Abstand, den Wix auf
+       den Inhalt einzelner Abschnitte legt, an den Abschnitt selbst durch
+       und verschiebt dessen Oberkante. Im Original liegen dazwischen noch
+       Wix-Wrapper, die dasselbe bewirken. */
+    display: flow-root;
+}
+
+/* ---------- Streifen ----------
+   Zwei Varianten kommen im Original vor. */
+
+/* Randlos ueber die ganze Breite */
+.strip {
+    width: 100%;
+    min-width: 980px;
+    display: flex;
+    position: relative;
+    margin: var(--mt, 0px) 0 var(--mb, 0px);
+}
+
+/* Mit 80px Luft links und rechts, mindestens aber 980px breit */
+.strip--inset {
+    width: calc(100% - 80px - 80px);
+    min-width: 980px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Abschnittsinhalt. Streifen liegen normalerweise untereinander. */
+.sec__content {
+    display: grid;
+    grid-template-columns: 100%;
+    width: 100%;
+}
+
+/* Im Original legt Wix auf der Startseite zwei Streifen in dieselbe
+   Rasterzelle, sodass sie sich ueberlappen. Diese Klasse bildet das nach. */
+.sec__content--stacked > .strip {
+    grid-row: 1;
+    grid-column: 1;
+    /* Ohne dies zieht der kuerzere Streifen sich auf die Hoehe des
+       laengeren auf. */
+    align-self: start;
+}
+
+/* ---------- Spalte ----------
+   Die Spalten teilen sich die Streifenbreite im Verhaeltnis ihrer
+   Entwurfsbreiten. --flex traegt diese Entwurfsbreite. */
+
+.col {
+    flex: var(--flex) 1 0%;
+    min-width: 0;
+    position: relative;
+    top: 0;
+    left: 0;
+}
+
+/* Spalteninhalt. --mh ist die Mindesthoehe aus dem Original.
+
+   Wix setzt hier grid-template-rows: repeat(n, min-content) 1fr — die
+   Inhaltszeilen sind also so hoch wie ihr Inhalt, und der Rest der
+   Spaltenhoehe bleibt unten uebrig. grid-auto-rows: min-content bildet
+   das nach. Ohne diese Zeile dehnen sich die Zeilen und die Abstaende
+   stimmen nicht mehr. */
+.col__content {
+    width: 100%;
+    min-height: var(--mh, auto);
+    position: relative;
+    display: grid;
+    grid-template-columns: 100%;
+    grid-auto-rows: min-content;
+}
+
+/* Hintergrundbild einer Spalte */
+.col__bg {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+}
+
+.col__bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 50%;
+    display: block;
+}
+
+/* ---------- Inhaltsblock ----------
+   --c   Bezugsbreite der Spalte laut Entwurf
+   --m   Faktor 0 / 0.5 / 1
+   --l   Versatz
+   --w   Breite des Blocks
+   --mt  Abstand oben
+   --mb  Abstand unten
+   --h   feste Hoehe, sofern das Original eine setzt */
+
+.mesh {
+    position: relative;
+    /* --ml gewinnt, wenn das Original einen einfachen linken Abstand setzt.
+       Das ist bei Bloecken innerhalb einer Box und in Wiederholungslisten
+       der Fall — dort rechnet Wix nicht mit der Spaltenbreite. */
+    margin: var(--mt, 0px) 0px var(--mb, 0px)
+            var(--ml, calc((100% - var(--c, 0px)) * var(--m, 0)));
+    left: var(--l, 0px);
+    width: var(--w);
+    height: var(--h, auto);
+    justify-self: start;
+    align-self: start;
+    grid-column: 1;
+}
+
+/* ---------- Box ----------
+   Ein Wix-Container mit eigener Flaeche, der weitere Bloecke aufnimmt. */
+
+.box {
+    background-color: rgb(var(--box-bg));
+    border-radius: var(--box-radius, 0);
+    border: var(--box-border-w, 0px) solid rgb(var(--box-border-c, 0, 0, 0));
+}
+
+.box__content {
+    display: grid;
+    grid-template-columns: 100%;
+    grid-auto-rows: min-content;
+    width: 100%;
+}
+
+/* ---------- Wiederholungsliste ----------
+   Wix' "Repeater". Auf der Preisseite gibt es genau einen, und der ist im
+   Original zu Hoehe 0 zusammengefallen — sein Inhalt (das einzelne Wort
+   "Gemeinschaft") erscheint auf der Seite nicht. Es handelt sich offenbar um
+   ein liegengebliebenes, leeres Element.
+
+   Deshalb wird hier der Zustand des Originals nachgebildet: kein Platz,
+   kein sichtbarer Inhalt. Sollte sich beim Abgleich mit der Live-Seite
+   zeigen, dass der Eintrag dort doch sichtbar ist, genuegt es, die beiden
+   Zeilen height/overflow zu entfernen. */
+
+.repeater {
+    display: grid;
+    grid-template-columns: 100%;
+    grid-auto-rows: min-content;
+    height: 0;
+    overflow: hidden;
+}
+
+.repeater__item {
+    position: relative;
+    display: grid;
+    grid-template-columns: 100%;
+    grid-auto-rows: min-content;
+}
+
+/* ---------- Rich-Text ----------
+   Wix' Textbloecke. font_8 liefert bereits 15px/1.88em Avenir Light in
+   #878575 — genau die Werte, die im Original zusaetzlich per inline-style
+   wiederholt werden. */
+
+/* Die Mindesthoehe gilt fuer den ganzen Textblock, nicht fuer jeden
+   einzelnen Absatz. */
+.rt {
+    min-height: var(--min-height, 0);
+}
+
+.rt a {
+    color: inherit;
+}
+
+/* ---------- Vektorgrafik (Anfuehrungszeichen) ---------- */
+
+.vector {
+    display: block;
+}
+
+.vector svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    fill: var(--fill);
+    fill-opacity: var(--fill-opacity, 1);
+}
+
+/* ---------- Schaltflaeche ----------
+   Wix' "Stylable Button": transparent, Text linksbuendig, beim
+   Ueberfahren erscheint eine 2px starke Unterlinie. */
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    background: rgba(255, 255, 255, 0);
+    border: 0px solid #a26028;
+    border-bottom: 2px solid transparent;
+    text-decoration: none;
+    transition: all 0.2s ease, visibility 0s;
+}
+
+.btn:hover {
+    border-bottom: 2px solid #1e1e1e;
+}
+
+.btn__label {
+    letter-spacing: 0em;
+    margin: 0px 4px 0px 0px;
+    font-family: avenir-lt-w01_85-heavy1475544, avenir-lt-w05_85-heavy, sans-serif;
+    font-weight: normal;
+    font-style: normal;
+    color: #1e1e1e;
+    font-size: 14px;
+}
+
+/* Das Pfeil-Symbol ist im Original auf display:none gesetzt. */
+.btn__icon {
+    display: none;
+}

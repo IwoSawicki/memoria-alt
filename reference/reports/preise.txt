@@ -1,0 +1,404 @@
+
+────────────────────────────────────────────────────────────────────────
+▸ comp-lbuw0h8f
+    [mesh] position:relative; margin:0px 0px 0 calc((100% - 980px) * 0.5); left:0px; grid-area:1 / 1 / 2 / 2; justify-self:start; align-self:start
+     left:0; margin-left:0; width:100%; min-width:0
+     --bg-overlay-color:rgb(var(--color_12)); --bg-gradient:none; min-width:980px
+    STIL font-size:35px; line-height:1em; text-align:center;
+    STIL color:#878575;
+    STIL font-size:35px;
+    STIL font-family:avenir-lt-w01_85-heavy1475544,avenir-lt-w05_85-heavy,sans-serif;
+    STIL letter-spacing:normal;
+    STIL text-decoration:underline;
+    STIL font-size:15px;
+    STIL font-style:normal;
+
+  ──────────────────────────────────────────────────────────────────────
+  ▸ comp-lbuw0h8finlineContent
+      [mesh] height:auto; width:100%
+      STIL font-size:35px; line-height:1em; text-align:center;
+      STIL color:#878575;
+      STIL font-size:35px;
+      STIL font-family:avenir-lt-w01_85-heavy1475544,avenir-lt-w05_85-heavy,sans-serif;
+      STIL letter-spacing:normal;
+      STIL text-decoration:underline;
+      STIL font-size:15px;
+      STIL font-style:normal;
+
+    ────────────────────────────────────────────────────────────────────
+    ▸ comp-jj5esiar
+        [mesh] position:relative; margin:0px 0px -1px calc((100% - 980px) * 0.5); left:0px; grid-area:1 / 1 / 2 / 2; justify-self:start; align-self:start
+         left:0; margin-left:0; width:100%; min-width:980px
+         --bg-overlay-color:transparent; --bg-gradient:none; --margin:0px; min-width:980px; --direction:ltr
+        STIL font-size:35px; line-height:1em; text-align:center;
+        STIL color:#878575;
+        STIL font-size:35px;
+        STIL font-family:avenir-lt-w01_85-heavy1475544,avenir-lt-w05_85-heavy,sans-serif;
+        STIL letter-spacing:normal;
+        STIL text-decoration:underline;
+        STIL font-size:15px;
+        STIL font-style:normal;
+
+      ──────────────────────────────────────────────────────────────────
+      ▸ comp-jj5esiar1
+           width:980px
+           --bg-overlay-color:rgb(var(--color_12)); --bg-gradient:none; width:100%; --column-width:980px; --column-flex:980
+          STIL font-size:35px; line-height:1em; text-align:center;
+          STIL color:#878575;
+          STIL font-size:35px;
+          STIL font-family:avenir-lt-w01_85-heavy1475544,avenir-lt-w05_85-heavy,sans-serif;
+          STIL letter-spacing:normal;
+          STIL text-decoration:underline;
+          STIL font-size:15px;
+          STIL font-style:normal;
+
+        ────────────────────────────────────────────────────────────────
+        ▸ comp-jj5esiar1inlineContent
+            [mesh] height:auto; width:100%
+            STIL font-size:35px; line-height:1em; text-align:center;
+            STIL color:#878575;
+            STIL font-size:35px;
+            STIL font-family:avenir-lt-w01_85-heavy1475544,avenir-lt-w05_85-heavy,sans-serif;
+            STIL letter-spacing:normal;
+            STIL text-decoration:underline;
+            STIL font-size:15px;
+            STIL font-style:normal;
+
+          ──────────────────────────────────────────────────────────────
+          ▸ comp-l56vouvk
+              [mesh] position:relative; margin:66px 0px 20px calc((100% - 980px) * 0.5); left:100px; grid-area:1 / 1 / 2 / 2; justify-self:start; align-self:start
+               --alpha-backgroundColor:0
+               width:780px; height:auto
+              STIL font-size:35px; line-height:1em; text-align:center;
+              STIL color:#878575;
+              STIL font-size:35px;
+              STIL font-family:avenir-lt-w01_85-heavy1475544,avenir-lt-w05_85-heavy,sans-serif;
+              STIL letter-spacing:normal;
+              STIL text-decoration:underline;
+              STIL font-size:15px;
+              STIL font-style:normal;
+              TEXT 'Preise inkl. Urkunde, Überführung, Energie-, CO² Zuschlag und 19 % Mwst. Unsere Serviceleistungen sind Mo-Fr. 18:00 - 20:00 und Sa 14:00 - 18:00 Uhr zzgl. 29,- €. Mo - Fr nach 20:00 Uhr, Samstag nach 18:00 Uhr und Sonntags zzgl. 49,- €'
+
+          ──────────────────────────────────────────────────────────────
+          ▸ comp-l56vouw7
+              [mesh] position:relative; margin:0px 0px 24px calc((100% - 980px) * 0.5); left:144px; grid-area:2 / 1 / 3 / 2; justify-self:start; align-self:start
+               --alpha-backgroundColor:0
+               width:780px; height:auto
+              STIL font-size:15px;
+              STIL font-weight:bold;
+              STIL font-family:avenir-lt-w01_35-light1475496,avenir-lt-w05_35-light,sans-serif;
+              TEXT 'Wir möchten Ihnen als Kunde einen Überblick der entstehenden Einäscherungskosten geben.'
+
+    ────────────────────────────────────────────────────────────────────
+    ▸ comp-l56w7mxs
+        [mesh] position:relative; margin:0px 0px 0 calc((100% - 980px) * 0.5); left:0px; grid-area:2 / 1 / 3 / 2; justify-self:start; align-self:start
+         --brw:0px; --brd:50,65,88; --bg:61,155,233; --rd:0px; --shd:none; --alpha-brd:0; --alpha-bg:0; --bg-gradient:none
+         width:980px
+         --direction:var(--wix-opt-in-direction)
+        STIL font-size:20px;
+        STIL font-family:avenir-lt-w01_85-heavy1475544,avenir-lt-w05_85-heavy,sans-serif;
+        STIL color:#878575;
+        TEXT 'Gemeinschaft'
+
+    ────────────────────────────────────────────────────────────────────
+    ▸ comp-l6ld2d2t
+        [mesh] position:relative; margin:0px 0px 22px calc((100% - 980px) * 0.5); left:55px; grid-area:3 / 1 / 4 / 2; justify-self:start; align-self:start
+         --brw:0px; --brd:230,222,202; --bg:248,248,248; --rd:0px 0px 0px 0px; --shd:none; --alpha-bg:1; --alpha-brd:1; --bg-gradient:none
+         width:873px
+        STIL font-size:18px; line-height:1.3em;
+        STIL font-family:avenir-lt-w01_85-heavy1475544,avenir-lt-w05_85-heavy,sans-serif;
+        STIL font-size:18px;
+        STIL font-weight:bold;
+        STIL letter-spacing:0em;
+        STIL font-size:16px; line-height:1.3em;
+        STIL text-decoration:underline;
+        STIL font-size:16px;
+
+      ──────────────────────────────────────────────────────────────────
+      ▸ comp-l6ld2d2tinlineContent
+          [mesh] height:auto; width:873px
+          STIL font-size:18px; line-height:1.3em;
+          STIL font-family:avenir-lt-w01_85-heavy1475544,avenir-lt-w05_85-heavy,sans-serif;
+          STIL font-size:18px;
+          STIL font-weight:bold;
+          STIL letter-spacing:0em;
+          STIL font-size:16px; line-height:1.3em;
+          STIL text-decoration:underline;
+          STIL font-size:16px;
+
+        ────────────────────────────────────────────────────────────────
+        ▸ comp-l6ld4gvq
+            [mesh] position:relative; margin:25px 0px 25px 0; left:222px; grid-area:1 / 1 / 2 / 2; justify-self:start; align-self:start
+             --alpha-backgroundColor:0
+             width:434px; height:auto
+             --min-height:200px
+            STIL font-size:18px; line-height:1.3em;
+            STIL font-family:avenir-lt-w01_85-heavy1475544,avenir-lt-w05_85-heavy,sans-serif;
+            STIL font-size:18px;
+            STIL font-weight:bold;
+            STIL letter-spacing:0em;
+            STIL font-size:16px; line-height:1.3em;
+            STIL text-decoration:underline;
+            STIL font-size:16px;
+            TEXT 'Einzeln mit Ascherückgabe Preise Vögel & Kleintiere 115,- inkl. 15,-€ Urnengutschrift Kaninchen 135,- inkl. 15,-€ Urnengutschrift Katzen & Hunde bis 5 kg 195,- inkl. 15,-€ Urnengutschrift K atzen & Hunde 5-20 kg 235,- inkl. 15,-€ Urnengutschrift Hunde 20-40 kg 315,- inkl. 25,-€ Urnengutschrift Hunde 40-60 kg 370,- inkl. 30,-€ Urnengutschrift Hunde über 60 kg 430,- inkl. 30,-€ Urnengutschrift'
+
+────────────────────────────────────────────────────────────────────────
+▸ comp-lbuw0h8g
+    [mesh] position:relative; margin:0px 0px 0 calc((100% - 980px) * 0.5); left:0px; grid-area:2 / 1 / 3 / 2; justify-self:start; align-self:start
+     left:0; margin-left:0; width:100%; min-width:0
+     --bg-overlay-color:rgb(248, 248, 248); --bg-gradient:none; min-width:980px
+    STIL font-size:18px; line-height:1.3em;
+    STIL font-family:avenir-lt-w01_85-heavy1475544,avenir-lt-w05_85-heavy,sans-serif;
+    STIL font-size:18px;
+    STIL font-weight:bold;
+    STIL letter-spacing:0em;
+    STIL font-size:16px; line-height:1.3em;
+    STIL font-size:16px;
+    STIL font-size:15px; line-height:1.3em;
+
+  ──────────────────────────────────────────────────────────────────────
+  ▸ comp-lbuw0h8ginlineContent
+      [mesh] height:auto; width:100%
+      STIL font-size:18px; line-height:1.3em;
+      STIL font-family:avenir-lt-w01_85-heavy1475544,avenir-lt-w05_85-heavy,sans-serif;
+      STIL font-size:18px;
+      STIL font-weight:bold;
+      STIL letter-spacing:0em;
+      STIL font-size:16px; line-height:1.3em;
+      STIL font-size:16px;
+      STIL font-size:15px; line-height:1.3em;
+
+    ────────────────────────────────────────────────────────────────────
+    ▸ comp-l6ld62xz
+        [mesh] position:relative; margin:22px 0px 61px calc((100% - 980px) * 0.5); left:51px; grid-area:1 / 1 / 2 / 2; justify-self:start; align-self:start
+         --bg:var(--color_12); --alpha-bg:1
+         width:873px
+        STIL font-size:18px; line-height:1.3em;
+        STIL font-family:avenir-lt-w01_85-heavy1475544,avenir-lt-w05_85-heavy,sans-serif;
+        STIL font-size:18px;
+        STIL font-weight:bold;
+        STIL letter-spacing:0em;
+        STIL font-size:16px; line-height:1.3em;
+        STIL font-size:16px;
+        STIL font-size:15px; line-height:1.3em;
+
+      ──────────────────────────────────────────────────────────────────
+      ▸ comp-l6ld62xzinlineContent
+          [mesh] height:auto; width:873px
+          STIL font-size:18px; line-height:1.3em;
+          STIL font-family:avenir-lt-w01_85-heavy1475544,avenir-lt-w05_85-heavy,sans-serif;
+          STIL font-size:18px;
+          STIL font-weight:bold;
+          STIL letter-spacing:0em;
+          STIL font-size:16px; line-height:1.3em;
+          STIL font-size:16px;
+          STIL font-size:15px; line-height:1.3em;
+
+        ────────────────────────────────────────────────────────────────
+        ▸ comp-l6ld0tda
+            [mesh] position:relative; margin:20px 0px 20px 0; left:226px; grid-area:1 / 1 / 2 / 2; justify-self:start; align-self:start
+             --alpha-backgroundColor:0
+             width:446px; height:auto
+             --min-height:200px
+            STIL font-size:18px; line-height:1.3em;
+            STIL font-family:avenir-lt-w01_85-heavy1475544,avenir-lt-w05_85-heavy,sans-serif;
+            STIL font-size:18px;
+            STIL font-weight:bold;
+            STIL letter-spacing:0em;
+            STIL font-size:16px; line-height:1.3em;
+            STIL font-size:16px;
+            STIL font-size:15px; line-height:1.3em;
+            TEXT 'Gemeinschaftlich ohne Ascherückgabe Preise Vögel & Kleintiere 60,- Kaninchen 70,- Katzen & Hunde bis 5 kg 120,- Katzen & Hunde 5-20 kg 160,- Hunde 20-40 kg 210,- Hunde 40-60 kg 260,- Hunde über 60 kg 320,-'
+
+────────────────────────────────────────────────────────────────────────
+▸ comp-lbuw0h8g1
+    [mesh] position:relative; margin:0px 0px 0 calc((100% - 980px) * 0.5); left:0px; grid-area:3 / 1 / 4 / 2; justify-self:start; align-self:start
+     left:0; margin-left:0; width:100%; min-width:0
+     --bg-overlay-color:transparent; --bg-gradient:none; min-width:980px
+    STIL font-size:15px;
+    STIL font-family:avenir-lt-w01_35-light1475496,avenir-lt-w05_35-light,sans-serif;
+
+  ──────────────────────────────────────────────────────────────────────
+  ▸ comp-lbuw0h8g1inlineContent
+      [mesh] height:auto; width:100%
+      STIL font-size:15px;
+      STIL font-family:avenir-lt-w01_35-light1475496,avenir-lt-w05_35-light,sans-serif;
+
+    ────────────────────────────────────────────────────────────────────
+    ▸ comp-l56x912h
+        [mesh] position:relative; margin:0px 0px 0px calc((100% - 980px) * 0.5); left:0px; grid-area:1 / 1 / 2 / 2; justify-self:start; align-self:start
+         left:0; margin-left:0; width:100%; min-width:980px
+         --bg-overlay-color:transparent; --bg-gradient:none; --margin:0px; min-width:980px; --direction:ltr
+        STIL font-size:15px;
+        STIL font-family:avenir-lt-w01_35-light1475496,avenir-lt-w05_35-light,sans-serif;
+
+      ──────────────────────────────────────────────────────────────────
+      ▸ comp-l56x913g
+           width:980px
+           --bg-overlay-color:rgb(var(--color_12)); --bg-gradient:none; width:100%; --column-width:980px; --column-flex:980
+          STIL font-size:15px;
+          STIL font-family:avenir-lt-w01_35-light1475496,avenir-lt-w05_35-light,sans-serif;
+
+        ────────────────────────────────────────────────────────────────
+        ▸ comp-l56x913ginlineContent
+            [mesh] height:auto; width:100%
+            STIL font-size:15px;
+            STIL font-family:avenir-lt-w01_35-light1475496,avenir-lt-w05_35-light,sans-serif;
+
+          ──────────────────────────────────────────────────────────────
+          ▸ comp-l56x9jkv
+              [mesh] position:relative; margin:0px 0px 38px calc((100% - 980px) * 0.5); left:95px; grid-area:1 / 1 / 2 / 2; justify-self:start; align-self:start
+               --alpha-backgroundColor:0
+               width:780px; height:auto
+               --min-height:137px
+              STIL font-size:15px;
+              STIL font-family:avenir-lt-w01_35-light1475496,avenir-lt-w05_35-light,sans-serif;
+              TEXT 'Weitere Kosten können zum Beispiel durch Abholung des Tieres, Rückbringung der Urne, Urne, Schmuck oder sonstige zusätzlich erbrachte Leistungen entstehen. Die Urnengutschrift lässt sich lediglich bei der dazugehörenden Einzeleinäscherung einlösen und wird von uns automatisch beim Erwerb der Urne gutgeschrieben. Nutzen Sie unsere telefonische Beratung. Gerne teilen wir Ihnen verbindlich die Gesamt'
+
+────────────────────────────────────────────────────────────────────────
+▸ comp-m989vzia
+    [mesh] position:relative; margin:0px 0px 0 calc((100% - 980px) * 0.5); left:0px; grid-area:4 / 1 / 5 / 2; justify-self:start; align-self:start
+     left:0; margin-left:0; width:100%; min-width:0
+     --bg-overlay-color:rgb(var(--color_36)); --bg-gradient:none; min-width:980px
+    BILD 11062b_880c7b78f2784cb48e182e145a301663~mv2.jpeg  619x362  fit=cover  alt='Kalenderseiten'
+    LINK https://app.acuityscheduling.com/schedule.php?owner=35292506 -> 'Link zum Online-Terminbuchung'
+    STIL font-size:56px; line-height:normal;
+    STIL font-style:normal;
+    STIL font-weight:400;
+    STIL font-size:25px;
+    STIL font-family:avenir-lt-w01_85-heavy1475544,avenir-lt-w05_85-heavy,sans-serif;
+    STIL color:#878575;
+    STIL font-size:16px; line-height:1.8em;
+    STIL font-size:15px;
+
+  ──────────────────────────────────────────────────────────────────────
+  ▸ comp-m989vziainlineContent
+      [mesh] height:auto; width:100%
+      BILD 11062b_880c7b78f2784cb48e182e145a301663~mv2.jpeg  619x362  fit=cover  alt='Kalenderseiten'
+      LINK https://app.acuityscheduling.com/schedule.php?owner=35292506 -> 'Link zum Online-Terminbuchung'
+      STIL font-size:56px; line-height:normal;
+      STIL font-style:normal;
+      STIL font-weight:400;
+      STIL font-size:25px;
+      STIL font-family:avenir-lt-w01_85-heavy1475544,avenir-lt-w05_85-heavy,sans-serif;
+      STIL color:#878575;
+      STIL font-size:16px; line-height:1.8em;
+      STIL font-size:15px;
+
+    ────────────────────────────────────────────────────────────────────
+    ▸ comp-m989vzj1
+        [mesh] position:relative; margin:70px 0px 10px calc((100% - 980px) * 0.5); left:0px; grid-area:1 / 1 / 2 / 2; justify-self:start; align-self:start
+         margin-left:auto; margin-right:auto; width:calc(100% - 80px - 80px); min-width:980px
+         --bg-overlay-color:transparent; --bg-gradient:none; --margin:0px; min-width:980px; --direction:ltr
+        BILD 11062b_880c7b78f2784cb48e182e145a301663~mv2.jpeg  619x362  fit=cover  alt='Kalenderseiten'
+
+      ──────────────────────────────────────────────────────────────────
+      ▸ comp-m989vzj9
+           width:619px
+           --bg-overlay-color:rgb(var(--color_12)); --bg-gradient:none; width:100%; --column-width:619px; --column-flex:619
+          BILD 11062b_880c7b78f2784cb48e182e145a301663~mv2.jpeg  619x362  fit=cover  alt='Kalenderseiten'
+
+        ────────────────────────────────────────────────────────────────
+        ▸ comp-m989vzj9inlineContent
+            [mesh] height:auto; width:100%; position:static; min-height:362px
+
+      ──────────────────────────────────────────────────────────────────
+      ▸ comp-m989vzjf1
+           width:361px
+           --bg-overlay-color:transparent; --bg-gradient:none; width:100%; --column-width:361px; --column-flex:361
+
+        ────────────────────────────────────────────────────────────────
+        ▸ comp-m989vzjf1inlineContent
+            [mesh] height:auto; width:100%; position:static; min-height:362px
+
+    ────────────────────────────────────────────────────────────────────
+    ▸ comp-m989vzjl2
+        [mesh] position:relative; margin:140px 0px 70px calc((100% - 980px) * 0.5); left:0px; grid-area:1 / 1 / 2 / 2; justify-self:start; align-self:start
+         margin-left:auto; margin-right:auto; width:calc(100% - 80px - 80px); min-width:980px
+         --bg-overlay-color:transparent; --bg-gradient:none; --margin:0px; min-width:980px; --direction:ltr
+        LINK https://app.acuityscheduling.com/schedule.php?owner=35292506 -> 'Link zum Online-Terminbuchung'
+        STIL font-size:56px; line-height:normal;
+        STIL font-style:normal;
+        STIL font-weight:400;
+        STIL font-size:25px;
+        STIL font-family:avenir-lt-w01_85-heavy1475544,avenir-lt-w05_85-heavy,sans-serif;
+        STIL color:#878575;
+        STIL font-size:16px; line-height:1.8em;
+        STIL font-size:15px;
+
+      ──────────────────────────────────────────────────────────────────
+      ▸ comp-m989vzjr
+           width:361px
+           --bg-overlay-color:transparent; --bg-gradient:none; width:100%; --column-width:361px; --column-flex:361
+
+        ────────────────────────────────────────────────────────────────
+        ▸ comp-m989vzjrinlineContent
+            [mesh] height:auto; width:100%; position:static; min-height:383px
+
+      ──────────────────────────────────────────────────────────────────
+      ▸ comp-m989vzjw1
+           width:619px
+           --bg-overlay-color:rgb(var(--color_11)); --bg-gradient:none; width:100%; --column-width:619px; --column-flex:619
+          LINK https://app.acuityscheduling.com/schedule.php?owner=35292506 -> 'Link zum Online-Terminbuchung'
+          STIL font-size:56px; line-height:normal;
+          STIL font-style:normal;
+          STIL font-weight:400;
+          STIL font-size:25px;
+          STIL font-family:avenir-lt-w01_85-heavy1475544,avenir-lt-w05_85-heavy,sans-serif;
+          STIL color:#878575;
+          STIL font-size:16px; line-height:1.8em;
+          STIL font-size:15px;
+
+        ────────────────────────────────────────────────────────────────
+        ▸ comp-m989vzjw1inlineContent
+            [mesh] height:auto; width:100%
+            LINK https://app.acuityscheduling.com/schedule.php?owner=35292506 -> 'Link zum Online-Terminbuchung'
+            STIL font-size:56px; line-height:normal;
+            STIL font-style:normal;
+            STIL font-weight:400;
+            STIL font-size:25px;
+            STIL font-family:avenir-lt-w01_85-heavy1475544,avenir-lt-w05_85-heavy,sans-serif;
+            STIL color:#878575;
+            STIL font-size:16px; line-height:1.8em;
+            STIL font-size:15px;
+
+          ──────────────────────────────────────────────────────────────
+          ▸ comp-m989vzk0
+              [mesh] position:relative; margin:80px 0px 22px calc((100% - 619px) * 0.5); left:20px; grid-area:1 / 1 / 2 / 2; justify-self:start; align-self:start
+               --alpha-backgroundColor:0
+               width:583px; height:auto
+              STIL font-size:56px; line-height:normal;
+              STIL font-style:normal;
+              STIL font-weight:400;
+              STIL font-size:25px;
+              STIL font-family:avenir-lt-w01_85-heavy1475544,avenir-lt-w05_85-heavy,sans-serif;
+              STIL color:#878575;
+              TEXT 'Online Terminbuchung'
+
+          ──────────────────────────────────────────────────────────────
+          ▸ comp-m989vzk41
+              [mesh] position:relative; margin:0px 0px 32px calc((100% - 619px) * 0.5); left:20px; grid-area:2 / 1 / 3 / 2; justify-self:start; align-self:start
+               --alpha-backgroundColor:0
+               width:583px; height:auto
+              STIL font-size:16px; line-height:1.8em;
+              STIL font-style:normal;
+              STIL font-weight:400;
+              STIL color:#878575;
+              STIL font-size:15px;
+              STIL font-family:avenir-lt-w01_35-light1475496,avenir-lt-w05_35-light,sans-serif;
+              TEXT 'Um unseren Kundenservice zu verbessern, bieten wir jetzt eine Online-Terminbuchung an, sodass Sie einen passenden Zeitpunkt für die Kommunikation oder ein Treffen mit uns auswählen können.'
+
+          ──────────────────────────────────────────────────────────────
+          ▸ comp-m989vzka
+              [mesh] position:relative; margin:0px 0px 38px calc((100% - 619px) * 0.5); left:20px; grid-area:3 / 1 / 4 / 2; justify-self:start; align-self:start
+               width:254px; height:40px
+               background: rgba(255, 255, 255, 0)
+               background: rgba(255, 255, 255, 0); border: 0px solid #A26028
+               color: #1E1E1E
+               background: #E2E2E2
+               color: #8F8F8F
+               justify-content: flex-start
+               letter-spacing: 0em; margin: 0px 4px 0px 0px; display: inherited; font-family: avenir-lt-w01_85-heavy1475544,avenir-lt-w05_85-heavy,sans-serif; font-weight: normal; font-style: normal; color: #1E1E1E; font-size: 14px
+               width: 10px; height: 10px; margin: 0px 0px 0px 4px; display: none
+              LINK https://app.acuityscheduling.com/schedule.php?owner=35292506 -> 'Link zum Online-Terminbuchung'
+              TEXT 'Link zum Online-Terminbuchung'

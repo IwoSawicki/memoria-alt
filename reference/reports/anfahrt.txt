@@ -1,0 +1,126 @@
+
+────────────────────────────────────────────────────────────────────────
+▸ comp-lbuw0h7k
+    [mesh] position:relative; margin:0px 0px 0 calc((100% - 980px) * 0.5); left:0px; grid-area:1 / 1 / 2 / 2; justify-self:start; align-self:start
+     left:0; margin-left:0; width:100%; min-width:0
+     --bg-overlay-color:rgb(var(--color_12)); --bg-gradient:none; min-width:980px
+    LINK mailto:info@tierbestattung-memoria.de -> 'info@tierbestattung-memoria.de'
+    LINK mailto:memoria.tierbestattung@gmail.com -> 'memoria.tierbestattung@gmail.com'
+    LINK https://policies.google.com/privacy?hl=de -> 'https://policies.google.com/privacy?hl=de'
+    LINK https://developers.google.com/fonts/faq -> 'https://developers.google.com/fonts/faq'
+    LINK https://policies.google.com/privacy?hl=de -> 'https://policies.google.com/privacy?hl=de'
+    LINK https://privacy.google.com/businesses/gdprcontrollerterms/ -> 'https://privacy.google.com/businesses/gdprcontrollerterms/'
+    STIL font-size:35px; line-height:1.35em; text-align:center;
+    STIL color:#878575;
+    STIL font-size:35px;
+    STIL font-family:avenir-lt-w01_85-heavy1475544,avenir-lt-w05_85-heavy,sans-serif;
+    STIL letter-spacing:normal;
+    STIL font-size:15px;
+    STIL font-family:avenir-lt-w01_35-light1475496,avenir-lt-w05_35-light,sans-serif;
+    STIL font-size:20px;
+
+  ──────────────────────────────────────────────────────────────────────
+  ▸ comp-lbuw0h7kinlineContent
+      [mesh] height:auto; width:100%
+      LINK mailto:info@tierbestattung-memoria.de -> 'info@tierbestattung-memoria.de'
+      LINK mailto:memoria.tierbestattung@gmail.com -> 'memoria.tierbestattung@gmail.com'
+      LINK https://policies.google.com/privacy?hl=de -> 'https://policies.google.com/privacy?hl=de'
+      LINK https://developers.google.com/fonts/faq -> 'https://developers.google.com/fonts/faq'
+      LINK https://policies.google.com/privacy?hl=de -> 'https://policies.google.com/privacy?hl=de'
+      LINK https://privacy.google.com/businesses/gdprcontrollerterms/ -> 'https://privacy.google.com/businesses/gdprcontrollerterms/'
+      STIL font-size:35px; line-height:1.35em; text-align:center;
+      STIL color:#878575;
+      STIL font-size:35px;
+      STIL font-family:avenir-lt-w01_85-heavy1475544,avenir-lt-w05_85-heavy,sans-serif;
+      STIL letter-spacing:normal;
+      STIL font-size:15px;
+      STIL font-family:avenir-lt-w01_35-light1475496,avenir-lt-w05_35-light,sans-serif;
+      STIL font-size:20px;
+
+    ────────────────────────────────────────────────────────────────────
+    ▸ comp-jj5esisa
+        [mesh] position:relative; margin:0px 0px -98px calc((100% - 980px) * 0.5); left:0px; grid-area:1 / 1 / 2 / 2; justify-self:start; align-self:start
+         left:0; margin-left:0; width:100%; min-width:980px
+         --bg-overlay-color:transparent; --bg-gradient:none; --margin:0px; min-width:980px; --direction:ltr
+        STIL font-size:35px; line-height:1.35em; text-align:center;
+        STIL color:#878575;
+        STIL font-size:35px;
+        STIL font-family:avenir-lt-w01_85-heavy1475544,avenir-lt-w05_85-heavy,sans-serif;
+        STIL letter-spacing:normal;
+
+      ──────────────────────────────────────────────────────────────────
+      ▸ comp-jj5esisa1
+           width:980px
+           --bg-overlay-color:rgb(var(--color_12)); --bg-gradient:none; width:100%; --column-width:980px; --column-flex:980
+          STIL font-size:35px; line-height:1.35em; text-align:center;
+          STIL color:#878575;
+          STIL font-size:35px;
+          STIL font-family:avenir-lt-w01_85-heavy1475544,avenir-lt-w05_85-heavy,sans-serif;
+          STIL letter-spacing:normal;
+
+        ────────────────────────────────────────────────────────────────
+        ▸ comp-jj5esisa1inlineContent
+            [mesh] height:auto; width:100%
+            STIL font-size:35px; line-height:1.35em; text-align:center;
+            STIL color:#878575;
+            STIL font-size:35px;
+            STIL font-family:avenir-lt-w01_85-heavy1475544,avenir-lt-w05_85-heavy,sans-serif;
+            STIL letter-spacing:normal;
+
+          ──────────────────────────────────────────────────────────────
+          ▸ comp-l56zzzfq
+              [mesh] position:relative; margin:64px 0px 10px calc((100% - 980px) * 0.5); left:99px; grid-area:1 / 1 / 2 / 2; justify-self:start; align-self:start
+               --alpha-backgroundColor:0
+               width:780px; height:auto
+              STIL font-size:35px; line-height:1.35em; text-align:center;
+              STIL color:#878575;
+              STIL font-size:35px;
+              STIL font-family:avenir-lt-w01_85-heavy1475544,avenir-lt-w05_85-heavy,sans-serif;
+              STIL letter-spacing:normal;
+              TEXT 'Impressum'
+
+    ────────────────────────────────────────────────────────────────────
+    ▸ comp-l56zzzg2
+        [mesh] position:relative; margin:0px 0px 27px calc((100% - 980px) * 0.5); left:100px; grid-area:2 / 1 / 3 / 2; justify-self:start; align-self:start
+         --alpha-backgroundColor:0
+         width:780px; height:auto
+        LINK mailto:info@tierbestattung-memoria.de -> 'info@tierbestattung-memoria.de'
+        STIL font-size:15px;
+        STIL font-family:avenir-lt-w01_35-light1475496,avenir-lt-w05_35-light,sans-serif;
+        STIL font-size:20px;
+        STIL font-family:avenir-lt-w01_85-heavy1475544,avenir-lt-w05_85-heavy,sans-serif;
+        STIL text-decoration:underline;
+        TEXT 'Inhaltlich Verantwortlicher gemäß MDStV: Memoria Tier be s tattung GmbH Konrad-Zuse-Str. 3 69514 Laudenbach Geschäftsführer: Dr. Klaus Göck Abholadresse: Carl-Benz-Str. 1 64683 Einhausen Fon: +49 (0) 62 01 - 7 30 30 41 info@tierbestattung-memoria.de Umsatzsteuer-Identifikationsnummer gemäß §27 a Umsatzsteuergesetz: DE355629970 Steuernummer: 47023/27749 Zulassungsnummer: DE 08 222 0005 01 HRB 74441'
+
+    ────────────────────────────────────────────────────────────────────
+    ▸ comp-l57uhtnf
+        [mesh] position:relative; margin:0px 0px 28px calc((100% - 980px) * 0.5); left:100px; grid-area:3 / 1 / 4 / 2; justify-self:start; align-self:start
+         --alpha-backgroundColor:0
+         width:780px; height:auto
+        STIL font-size:35px; line-height:1.35em; text-align:center;
+        STIL color:#878575;
+        STIL font-size:35px;
+        STIL font-family:avenir-lt-w01_85-heavy1475544,avenir-lt-w05_85-heavy,sans-serif;
+        STIL letter-spacing:normal;
+        TEXT 'Datenschutzerklärung'
+
+    ────────────────────────────────────────────────────────────────────
+    ▸ comp-l57uhtno
+        [mesh] position:relative; margin:0px 0px 0px calc((100% - 980px) * 0.5); left:100px; grid-area:4 / 1 / 5 / 2; justify-self:start; align-self:start
+         --alpha-backgroundColor:0
+         width:780px; height:auto
+        LINK mailto:memoria.tierbestattung@gmail.com -> 'memoria.tierbestattung@gmail.com'
+        LINK https://policies.google.com/privacy?hl=de -> 'https://policies.google.com/privacy?hl=de'
+        LINK https://developers.google.com/fonts/faq -> 'https://developers.google.com/fonts/faq'
+        LINK https://policies.google.com/privacy?hl=de -> 'https://policies.google.com/privacy?hl=de'
+        LINK https://privacy.google.com/businesses/gdprcontrollerterms/ -> 'https://privacy.google.com/businesses/gdprcontrollerterms/'
+        LINK https://privacy.google.com/businesses/gdprcontrollerterms/sccs/ -> 'https://privacy.google.com/businesses/gdprcontrollerterms/sc'
+        STIL font-size:20px;
+        STIL font-family:avenir-lt-w01_85-heavy1475544,avenir-lt-w05_85-heavy,sans-serif;
+        STIL font-size:15px;
+        STIL font-family:avenir-lt-w01_35-light1475496,avenir-lt-w05_35-light,sans-serif;
+        STIL text-decoration:underline;
+        STIL font-family:avenir-lt-w01_35-light1475496,avenir-lt-w05_35-light,sans-serif; font-size:15px;
+        STIL font-weight:bold;
+        STIL font-size:35px; text-align:center;
+        TEXT '1. Datenschutz auf einen Blick Allgemeine Hinweise Die folgenden Hinweise geben einen einfachen Überblick darüber, was mit Ihren personenbezogenen Daten passiert, wenn Sie diese Website besuchen. Personenbezogene Daten sind alle Daten, mit denen Sie persönlich identifiziert werden können. Ausführliche Informationen zum Thema Datenschutz entnehmen Sie unserer unter diesem Text aufgeführten Datensch'

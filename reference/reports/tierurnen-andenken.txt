@@ -1,0 +1,347 @@
+
+────────────────────────────────────────────────────────────────────────
+▸ comp-lbuw0h7j
+    [mesh] position:relative; margin:0px 0px 0 calc((100% - 980px) * 0.5); left:0px; grid-area:1 / 1 / 2 / 2; justify-self:start; align-self:start
+     left:0; margin-left:0; width:100%; min-width:0
+     --bg-overlay-color:rgb(var(--color_12)); --bg-gradient:none; min-width:980px
+    LINK _files/ugd/9d970e_10f1783f401d48d48fdd7c3a92ac41cd.pdf -> 'Hier klicken zum Öffnen'
+    STIL font-size:35px; line-height:1.35em; text-align:center;
+    STIL color:#878575;
+    STIL font-size:35px;
+    STIL font-family:avenir-lt-w01_85-heavy1475544,avenir-lt-w05_85-heavy,sans-serif;
+    STIL letter-spacing:normal;
+    STIL font-size:15px; text-align:center;
+    STIL font-size:15px;
+    STIL font-family:avenir-lt-w01_35-light1475496,avenir-lt-w05_35-light,sans-serif;
+
+  ──────────────────────────────────────────────────────────────────────
+  ▸ comp-lbuw0h7jinlineContent
+      [mesh] height:auto; width:100%
+      LINK _files/ugd/9d970e_10f1783f401d48d48fdd7c3a92ac41cd.pdf -> 'Hier klicken zum Öffnen'
+      STIL font-size:35px; line-height:1.35em; text-align:center;
+      STIL color:#878575;
+      STIL font-size:35px;
+      STIL font-family:avenir-lt-w01_85-heavy1475544,avenir-lt-w05_85-heavy,sans-serif;
+      STIL letter-spacing:normal;
+      STIL font-size:15px; text-align:center;
+      STIL font-size:15px;
+      STIL font-family:avenir-lt-w01_35-light1475496,avenir-lt-w05_35-light,sans-serif;
+
+    ────────────────────────────────────────────────────────────────────
+    ▸ comp-jj5esj11
+        [mesh] position:relative; margin:0px 0px 0 calc((100% - 980px) * 0.5); left:0px; grid-area:1 / 1 / 2 / 2; justify-self:start; align-self:start
+         left:0; margin-left:0; width:100%; min-width:980px
+         --bg-overlay-color:transparent; --bg-gradient:none; --margin:0px; min-width:980px; --direction:ltr
+        STIL font-size:35px; line-height:1.35em; text-align:center;
+        STIL color:#878575;
+        STIL font-size:35px;
+        STIL font-family:avenir-lt-w01_85-heavy1475544,avenir-lt-w05_85-heavy,sans-serif;
+        STIL letter-spacing:normal;
+
+      ──────────────────────────────────────────────────────────────────
+      ▸ comp-jj5esj111
+           width:980px
+           --bg-overlay-color:rgb(var(--color_12)); --bg-gradient:none; width:100%; --column-width:980px; --column-flex:980
+          STIL font-size:35px; line-height:1.35em; text-align:center;
+          STIL color:#878575;
+          STIL font-size:35px;
+          STIL font-family:avenir-lt-w01_85-heavy1475544,avenir-lt-w05_85-heavy,sans-serif;
+          STIL letter-spacing:normal;
+
+        ────────────────────────────────────────────────────────────────
+        ▸ comp-jj5esj111inlineContent
+            [mesh] height:auto; width:100%
+            STIL font-size:35px; line-height:1.35em; text-align:center;
+            STIL color:#878575;
+            STIL font-size:35px;
+            STIL font-family:avenir-lt-w01_85-heavy1475544,avenir-lt-w05_85-heavy,sans-serif;
+            STIL letter-spacing:normal;
+
+          ──────────────────────────────────────────────────────────────
+          ▸ comp-l56xdzjw
+              [mesh] position:relative; margin:64px 0px 10px calc((100% - 980px) * 0.5); left:99px; grid-area:1 / 1 / 2 / 2; justify-self:start; align-self:start
+               --alpha-backgroundColor:0
+               width:780px; height:auto
+              STIL font-size:35px; line-height:1.35em; text-align:center;
+              STIL color:#878575;
+              STIL font-size:35px;
+              STIL font-family:avenir-lt-w01_85-heavy1475544,avenir-lt-w05_85-heavy,sans-serif;
+              STIL letter-spacing:normal;
+              TEXT 'Tierurnen & Andenken'
+
+    ────────────────────────────────────────────────────────────────────
+    ▸ comp-l56xdzkd
+        [mesh] position:relative; margin:0px 0px 8px calc((100% - 980px) * 0.5); left:99px; grid-area:2 / 1 / 3 / 2; justify-self:start; align-self:start
+         --alpha-backgroundColor:0
+         width:780px; height:auto
+         --min-height:1px
+        STIL font-size:15px; text-align:center;
+        STIL font-size:15px;
+        STIL font-family:avenir-lt-w01_35-light1475496,avenir-lt-w05_35-light,sans-serif;
+        STIL font-weight:bold;
+        TEXT 'Unsere Auswahl an Tierurnen, Andenkenschmuck und Individualprodukten finden Sie in unserem Katalog. Achtung falls ein Pfotenabdruck oder das sichern von Haaren gewünscht wird, benötigen wir diese Angabe direkt beim Empfang des Tieres.'
+
+    ────────────────────────────────────────────────────────────────────
+    ▸ comp-l57we57h
+        [mesh] position:relative; margin:0px 0px 0px calc((100% - 980px) * 0.5); left:105px; grid-area:3 / 1 / 4 / 2; justify-self:start; align-self:start
+         --alpha-backgroundColor:0
+         width:780px; height:auto
+        LINK _files/ugd/9d970e_10f1783f401d48d48fdd7c3a92ac41cd.pdf -> 'Hier klicken zum Öffnen'
+        STIL font-size:20px; text-align:center;
+        STIL font-size:20px;
+        STIL color:#878575;
+        STIL text-decoration:underline;
+        STIL font-weight:bold;
+        TEXT 'Hier klicken zum Öffnen'
+
+────────────────────────────────────────────────────────────────────────
+▸ comp-lbuw0h7j1
+    [mesh] position:relative; margin:0px 0px 0 calc((100% - 980px) * 0.5); left:0px; grid-area:2 / 1 / 3 / 2; justify-self:start; align-self:start
+     left:0; margin-left:0; width:100%; min-width:0
+     --bg-overlay-color:transparent; --bg-gradient:none; min-width:980px
+    LINK https://www.mevisto.com/de/mevisto-personalisiert/ -> 'https://www.mevisto.com/de/mevisto-personalisiert/'
+    STIL font-size:15px;
+    STIL font-family:avenir-lt-w01_35-light1475496,avenir-lt-w05_35-light,sans-serif;
+    STIL font-family:avenir-lt-w01_35-light1475496,avenir-lt-w05_35-light,sans-serif; font-size:15px;
+    STIL font-size:20px; margin-left:120px; text-align:center;
+    STIL text-decoration:underline;
+    STIL font-size:20px;
+    STIL font-weight:bold;
+    STIL font-size:19px; margin-left:120px; text-align:center;
+
+  ──────────────────────────────────────────────────────────────────────
+  ▸ comp-lbuw0h7j1inlineContent
+      [mesh] height:auto; width:100%
+      LINK https://www.mevisto.com/de/mevisto-personalisiert/ -> 'https://www.mevisto.com/de/mevisto-personalisiert/'
+      STIL font-size:15px;
+      STIL font-family:avenir-lt-w01_35-light1475496,avenir-lt-w05_35-light,sans-serif;
+      STIL font-family:avenir-lt-w01_35-light1475496,avenir-lt-w05_35-light,sans-serif; font-size:15px;
+      STIL font-size:20px; margin-left:120px; text-align:center;
+      STIL text-decoration:underline;
+      STIL font-size:20px;
+      STIL font-weight:bold;
+      STIL font-size:19px; margin-left:120px; text-align:center;
+
+    ────────────────────────────────────────────────────────────────────
+    ▸ comp-l56xuy42
+        [mesh] position:relative; margin:0px 0px 52px calc((100% - 980px) * 0.5); left:0px; grid-area:1 / 1 / 2 / 2; justify-self:start; align-self:start
+         left:0; margin-left:0; width:100%; min-width:980px
+         --bg-overlay-color:transparent; --bg-gradient:none; --margin:0px; min-width:980px; --direction:ltr
+        LINK https://www.mevisto.com/de/mevisto-personalisiert/ -> 'https://www.mevisto.com/de/mevisto-personalisiert/'
+        STIL font-size:15px;
+        STIL font-family:avenir-lt-w01_35-light1475496,avenir-lt-w05_35-light,sans-serif;
+        STIL font-family:avenir-lt-w01_35-light1475496,avenir-lt-w05_35-light,sans-serif; font-size:15px;
+        STIL font-size:20px; margin-left:120px; text-align:center;
+        STIL text-decoration:underline;
+        STIL font-size:20px;
+        STIL font-weight:bold;
+        STIL font-size:19px; margin-left:120px; text-align:center;
+
+      ──────────────────────────────────────────────────────────────────
+      ▸ comp-l56xuy4y
+           width:980px
+           --bg-overlay-color:rgb(255, 255, 255); --bg-gradient:none; width:100%; --column-width:980px; --column-flex:980
+          LINK https://www.mevisto.com/de/mevisto-personalisiert/ -> 'https://www.mevisto.com/de/mevisto-personalisiert/'
+          STIL font-size:15px;
+          STIL font-family:avenir-lt-w01_35-light1475496,avenir-lt-w05_35-light,sans-serif;
+          STIL font-family:avenir-lt-w01_35-light1475496,avenir-lt-w05_35-light,sans-serif; font-size:15px;
+          STIL font-size:20px; margin-left:120px; text-align:center;
+          STIL text-decoration:underline;
+          STIL font-size:20px;
+          STIL font-weight:bold;
+          STIL font-size:19px; margin-left:120px; text-align:center;
+
+        ────────────────────────────────────────────────────────────────
+        ▸ comp-l56xuy4yinlineContent
+            [mesh] height:auto; width:100%; display:flex
+            LINK https://www.mevisto.com/de/mevisto-personalisiert/ -> 'https://www.mevisto.com/de/mevisto-personalisiert/'
+            STIL font-size:15px;
+            STIL font-family:avenir-lt-w01_35-light1475496,avenir-lt-w05_35-light,sans-serif;
+            STIL font-family:avenir-lt-w01_35-light1475496,avenir-lt-w05_35-light,sans-serif; font-size:15px;
+            STIL font-size:20px; margin-left:120px; text-align:center;
+            STIL text-decoration:underline;
+            STIL font-size:20px;
+            STIL font-weight:bold;
+            STIL font-size:19px; margin-left:120px; text-align:center;
+
+          ──────────────────────────────────────────────────────────────
+          ▸ comp-l57v4mf1
+              [mesh] position:relative; margin:0px 0px 14px calc((100% - 980px) * 0.5); left:180px; grid-area:1 / 1 / 2 / 2; justify-self:start; align-self:start
+               --alpha-backgroundColor:0
+               width:643px; height:auto
+              STIL font-size:15px;
+              STIL font-family:avenir-lt-w01_35-light1475496,avenir-lt-w05_35-light,sans-serif;
+              STIL font-family:avenir-lt-w01_35-light1475496,avenir-lt-w05_35-light,sans-serif; font-size:15px;
+              TEXT 'Die benötigte Größe entnehmen Sie bitte der Tabelle auf der ersten Seite. Selbstverständlich kann die Urne größer, sollte jedoch vom Fassungsvolumen nicht kleiner sein Das Sortiment haben wir nach Materialen gegliedert. Die erhältlichen Größen sind jeweils darüber notiert.'
+
+          ──────────────────────────────────────────────────────────────
+          ▸ comp-l56xkp8d
+              [mesh] position:relative; margin:0px 0px 5px calc((100% - 980px) * 0.5); left:92px; grid-area:2 / 1 / 3 / 2; justify-self:start; align-self:start
+               --alpha-backgroundColor:0
+               width:780px; height:auto
+              LINK https://www.mevisto.com/de/mevisto-personalisiert/ -> 'https://www.mevisto.com/de/mevisto-personalisiert/'
+              STIL font-size:15px;
+              STIL font-family:avenir-lt-w01_35-light1475496,avenir-lt-w05_35-light,sans-serif;
+              STIL font-size:20px; margin-left:120px; text-align:center;
+              STIL text-decoration:underline;
+              STIL font-size:20px;
+              STIL font-weight:bold;
+              STIL font-size:19px; margin-left:120px; text-align:center;
+              STIL font-size:19px;
+              TEXT 'Zusätzlich können wir Ihnen die meisten Urnen durch eine Folienbeschriftung in der passenden Farbe individualisieren, damit Sie so Ihrem Tier die letzte Ehre erweisen können. Des weiteren bieten wir über unseren Partner, die Herstellung personalisierter Edelsteine, aus Asche oder Haaren an. https://www.mevisto.com/de/mevisto-personalisiert/'
+
+          ──────────────────────────────────────────────────────────────
+          ▸ comp-l56xvs1v
+              [mesh] position:relative; margin:0px 0px 0px calc((100% - 980px) * 0.5); left:195px; grid-area:3 / 1 / 4 / 2; justify-self:start; align-self:start
+               --contentPaddingLeft:0px; --contentPaddingRight:0px; --contentPaddingTop:0px; --contentPaddingBottom:0px
+               width:572px; height:238px
+               --height:238px; --width:572px
+              BILD 9d970e_eab4cd8ba69d4859919ff5192b7dffc7~mv2.jpg  572x238  fit=cover  alt='Homepage Urnen.jpg'
+
+────────────────────────────────────────────────────────────────────────
+▸ comp-m989xz2x
+    [mesh] position:relative; margin:0px 0px 0 calc((100% - 980px) * 0.5); left:0px; grid-area:3 / 1 / 4 / 2; justify-self:start; align-self:start
+     left:0; margin-left:0; width:100%; min-width:0
+     --bg-overlay-color:rgb(var(--color_36)); --bg-gradient:none; min-width:980px
+    BILD 11062b_880c7b78f2784cb48e182e145a301663~mv2.jpeg  619x362  fit=cover  alt='Kalenderseiten'
+    LINK https://app.acuityscheduling.com/schedule.php?owner=35292506 -> 'Link zum Online-Terminbuchung'
+    STIL font-size:56px; line-height:normal;
+    STIL font-style:normal;
+    STIL font-weight:400;
+    STIL font-size:25px;
+    STIL font-family:avenir-lt-w01_85-heavy1475544,avenir-lt-w05_85-heavy,sans-serif;
+    STIL color:#878575;
+    STIL font-size:16px; line-height:1.8em;
+    STIL font-size:15px;
+
+  ──────────────────────────────────────────────────────────────────────
+  ▸ comp-m989xz2xinlineContent
+      [mesh] height:auto; width:100%
+      BILD 11062b_880c7b78f2784cb48e182e145a301663~mv2.jpeg  619x362  fit=cover  alt='Kalenderseiten'
+      LINK https://app.acuityscheduling.com/schedule.php?owner=35292506 -> 'Link zum Online-Terminbuchung'
+      STIL font-size:56px; line-height:normal;
+      STIL font-style:normal;
+      STIL font-weight:400;
+      STIL font-size:25px;
+      STIL font-family:avenir-lt-w01_85-heavy1475544,avenir-lt-w05_85-heavy,sans-serif;
+      STIL color:#878575;
+      STIL font-size:16px; line-height:1.8em;
+      STIL font-size:15px;
+
+    ────────────────────────────────────────────────────────────────────
+    ▸ comp-m989xz36
+        [mesh] position:relative; margin:70px 0px 10px calc((100% - 980px) * 0.5); left:0px; grid-area:1 / 1 / 2 / 2; justify-self:start; align-self:start
+         margin-left:auto; margin-right:auto; width:calc(100% - 80px - 80px); min-width:980px
+         --bg-overlay-color:transparent; --bg-gradient:none; --margin:0px; min-width:980px; --direction:ltr
+        BILD 11062b_880c7b78f2784cb48e182e145a301663~mv2.jpeg  619x362  fit=cover  alt='Kalenderseiten'
+
+      ──────────────────────────────────────────────────────────────────
+      ▸ comp-m989xz3b
+           width:619px
+           --bg-overlay-color:rgb(var(--color_12)); --bg-gradient:none; width:100%; --column-width:619px; --column-flex:619
+          BILD 11062b_880c7b78f2784cb48e182e145a301663~mv2.jpeg  619x362  fit=cover  alt='Kalenderseiten'
+
+        ────────────────────────────────────────────────────────────────
+        ▸ comp-m989xz3binlineContent
+            [mesh] height:auto; width:100%; position:static; min-height:362px
+
+      ──────────────────────────────────────────────────────────────────
+      ▸ comp-m989xz3g1
+           width:361px
+           --bg-overlay-color:transparent; --bg-gradient:none; width:100%; --column-width:361px; --column-flex:361
+
+        ────────────────────────────────────────────────────────────────
+        ▸ comp-m989xz3g1inlineContent
+            [mesh] height:auto; width:100%; position:static; min-height:362px
+
+    ────────────────────────────────────────────────────────────────────
+    ▸ comp-m989xz3j2
+        [mesh] position:relative; margin:140px 0px 70px calc((100% - 980px) * 0.5); left:0px; grid-area:1 / 1 / 2 / 2; justify-self:start; align-self:start
+         margin-left:auto; margin-right:auto; width:calc(100% - 80px - 80px); min-width:980px
+         --bg-overlay-color:transparent; --bg-gradient:none; --margin:0px; min-width:980px; --direction:ltr
+        LINK https://app.acuityscheduling.com/schedule.php?owner=35292506 -> 'Link zum Online-Terminbuchung'
+        STIL font-size:56px; line-height:normal;
+        STIL font-style:normal;
+        STIL font-weight:400;
+        STIL font-size:25px;
+        STIL font-family:avenir-lt-w01_85-heavy1475544,avenir-lt-w05_85-heavy,sans-serif;
+        STIL color:#878575;
+        STIL font-size:16px; line-height:1.8em;
+        STIL font-size:15px;
+
+      ──────────────────────────────────────────────────────────────────
+      ▸ comp-m989xz3n
+           width:361px
+           --bg-overlay-color:transparent; --bg-gradient:none; width:100%; --column-width:361px; --column-flex:361
+
+        ────────────────────────────────────────────────────────────────
+        ▸ comp-m989xz3ninlineContent
+            [mesh] height:auto; width:100%; position:static; min-height:383px
+
+      ──────────────────────────────────────────────────────────────────
+      ▸ comp-m989xz3q1
+           width:619px
+           --bg-overlay-color:rgb(var(--color_11)); --bg-gradient:none; width:100%; --column-width:619px; --column-flex:619
+          LINK https://app.acuityscheduling.com/schedule.php?owner=35292506 -> 'Link zum Online-Terminbuchung'
+          STIL font-size:56px; line-height:normal;
+          STIL font-style:normal;
+          STIL font-weight:400;
+          STIL font-size:25px;
+          STIL font-family:avenir-lt-w01_85-heavy1475544,avenir-lt-w05_85-heavy,sans-serif;
+          STIL color:#878575;
+          STIL font-size:16px; line-height:1.8em;
+          STIL font-size:15px;
+
+        ────────────────────────────────────────────────────────────────
+        ▸ comp-m989xz3q1inlineContent
+            [mesh] height:auto; width:100%
+            LINK https://app.acuityscheduling.com/schedule.php?owner=35292506 -> 'Link zum Online-Terminbuchung'
+            STIL font-size:56px; line-height:normal;
+            STIL font-style:normal;
+            STIL font-weight:400;
+            STIL font-size:25px;
+            STIL font-family:avenir-lt-w01_85-heavy1475544,avenir-lt-w05_85-heavy,sans-serif;
+            STIL color:#878575;
+            STIL font-size:16px; line-height:1.8em;
+            STIL font-size:15px;
+
+          ──────────────────────────────────────────────────────────────
+          ▸ comp-m989xz3t
+              [mesh] position:relative; margin:80px 0px 22px calc((100% - 619px) * 0.5); left:20px; grid-area:1 / 1 / 2 / 2; justify-self:start; align-self:start
+               --alpha-backgroundColor:0
+               width:583px; height:auto
+              STIL font-size:56px; line-height:normal;
+              STIL font-style:normal;
+              STIL font-weight:400;
+              STIL font-size:25px;
+              STIL font-family:avenir-lt-w01_85-heavy1475544,avenir-lt-w05_85-heavy,sans-serif;
+              STIL color:#878575;
+              TEXT 'Online Terminbuchung'
+
+          ──────────────────────────────────────────────────────────────
+          ▸ comp-m989xz3w5
+              [mesh] position:relative; margin:0px 0px 32px calc((100% - 619px) * 0.5); left:20px; grid-area:2 / 1 / 3 / 2; justify-self:start; align-self:start
+               --alpha-backgroundColor:0
+               width:583px; height:auto
+              STIL font-size:16px; line-height:1.8em;
+              STIL font-style:normal;
+              STIL font-weight:400;
+              STIL color:#878575;
+              STIL font-size:15px;
+              STIL font-family:avenir-lt-w01_35-light1475496,avenir-lt-w05_35-light,sans-serif;
+              TEXT 'Um unseren Kundenservice zu verbessern, bieten wir jetzt eine Online-Terminbuchung an, sodass Sie einen passenden Zeitpunkt für die Kommunikation oder ein Treffen mit uns auswählen können.'
+
+          ──────────────────────────────────────────────────────────────
+          ▸ comp-m989xz401
+              [mesh] position:relative; margin:0px 0px 38px calc((100% - 619px) * 0.5); left:20px; grid-area:3 / 1 / 4 / 2; justify-self:start; align-self:start
+               width:254px; height:40px
+               background: rgba(255, 255, 255, 0)
+               background: rgba(255, 255, 255, 0); border: 0px solid #A26028
+               color: #1E1E1E
+               background: #E2E2E2
+               color: #8F8F8F
+               justify-content: flex-start
+               letter-spacing: 0em; margin: 0px 4px 0px 0px; display: inherited; font-family: avenir-lt-w01_85-heavy1475544,avenir-lt-w05_85-heavy,sans-serif; font-weight: normal; font-style: normal; color: #1E1E1E; font-size: 14px
+               width: 10px; height: 10px; margin: 0px 0px 0px 4px; display: none
+              LINK https://app.acuityscheduling.com/schedule.php?owner=35292506 -> 'Link zum Online-Terminbuchung'
+              TEXT 'Link zum Online-Terminbuchung'
