@@ -56,6 +56,29 @@ MAP = {
 }
 
 
+def echtes_format(pfad):
+    """Tatsaechliches Bildformat anhand der Dateisignatur.
+
+    Wix liefert je nach Anfrage AVIF oder JPEG unter demselben Dateinamen aus.
+    Traegt eine Datei .jpg, enthaelt aber AVIF, liefert der Server einen
+    falschen Inhaltstyp — manche Browser zeigen das Bild dann nicht an.
+    Deshalb hier gegenpruefen.
+    """
+    with open(pfad, "rb") as f:
+        d = f.read(32)
+    if d[4:12] == b"ftypavif":
+        return "avif"
+    if d[:8] == b"\x89PNG\r\n\x1a\n":
+        return "png"
+    if d[:3] == b"\xff\xd8\xff":
+        return "jpg"
+    if d[:6] in (b"GIF87a", b"GIF89a"):
+        return "gif"
+    if d[:4] == b"RIFF" and d[8:12] == b"WEBP":
+        return "webp"
+    return None
+
+
 def variants(media_id):
     """Alle heruntergeladenen Varianten einer Wix-Medien-ID, groesste zuerst."""
     base = os.path.join(MEDIA, media_id)
@@ -107,11 +130,32 @@ def main():
         if best["blur"]:
             placeholders.append((name + ext, media_id, purpose))
 
+    # Endung an den tatsaechlichen Inhalt anpassen
+    korrigiert = []
+    for i, (name, kind, size, purpose) in enumerate(manifest):
+        pfad = os.path.join(DST, name)
+        fmt = echtes_format(pfad)
+        stamm, endung = os.path.splitext(name)
+        passt = {"jpg": (".jpg", ".jpeg"), "png": (".png",), "avif": (".avif",),
+                 "gif": (".gif",), "webp": (".webp",)}.get(fmt, ())
+        if fmt and endung.lower() not in passt:
+            neu = stamm + "." + fmt
+            os.replace(pfad, os.path.join(DST, neu))
+            korrigiert.append((name, neu))
+            manifest[i] = (neu, kind, size, purpose)
+
     w = max(len(m[0]) for m in manifest)
     print(f"{'Datei':<{w}}  {'Quelle':<28}  {'Groesse':>9}  Verwendung")
     print("-" * (w + 60))
     for f, kind, size, purpose in manifest:
         print(f"{f:<{w}}  {kind:<28}  {size:>8,}B  {purpose}")
+
+    if korrigiert:
+        print()
+        print("Endung an den tatsaechlichen Inhalt angepasst:")
+        for alt, neu in korrigiert:
+            print(f"   {alt} -> {neu}")
+        print("   Danach die Seiten neu erzeugen, damit die Pfade stimmen.")
 
     if placeholders:
         print()

@@ -22,8 +22,11 @@ import sys
 import os
 import html as H
 
+# Welcher Spiegel gelesen wird. Standard ist der Desktop-Mirror; fuer die
+# Mobilfassung genuegt spaeter:  MIRROR=miror-mobile python3 tools/spec.py index
+_SPIEGEL = os.environ.get("MIRROR", "miror-alt")
 MIRROR = os.path.join(os.path.dirname(__file__), "..",
-                      "miror-alt", "www.tierbestattung-memoria.de")
+                      _SPIEGEL, "www.tierbestattung-memoria.de")
 
 
 def load(page):
