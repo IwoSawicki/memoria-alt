@@ -1,3 +1,7 @@
 .DS_Store
 Thumbs.db
 *.log
+
+# Playwright wird nur fuer tools/compare.js gebraucht und lokal installiert,
+# siehe Hinweis in CLAUDE.md. Nicht ins Repo.
+node_modules/

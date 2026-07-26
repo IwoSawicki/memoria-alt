@@ -184,6 +184,17 @@ node     tools/compare.js <seite> [breite]                Geometrie messen und v
 python3 tools/build-images.py                             Bilder aufbereiten
 ```
 
+`compare.js` braucht einmalig Playwright. Es wird nur zum Pruefen benutzt und
+gehoert nicht zum ausgelieferten Stand:
+
+```
+npm install playwright        # node_modules/ ist in .gitignore
+```
+
+Die Chromium-Binary wird ueber `executablePath` in `tools/compare.js`
+angesprochen. Stimmt der Pfad auf einem anderen Rechner nicht, dort anpassen
+oder `npx playwright install chromium` ausfuehren.
+
 `compare.js` ist die eigentliche Kontrolle: es rendert den wget-Mirror und den
 Nachbau nebeneinander im selben Browser, misst zu jeder Komponente Position und
 Groesse und meldet jede Abweichung ueber 1px. **Eine Seite gilt erst als fertig,
