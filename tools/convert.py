@@ -798,7 +798,11 @@ class Converter:
         beschreibung = meta(r'<meta name="description" content="(.*?)"')
         og_titel = meta(r'<meta property="og:title" content="(.*?)"', titel)
         og_besch = meta(r'<meta property="og:description" content="(.*?)"', beschreibung)
-        og_seite = meta(r'<meta property="og:site_name" content="(.*?)"')
+        # Im Original steht hier "My Site 2" — ein Wix-Standardwert, den die
+        # Seite nie ersetzt bekommen hat. Auf der Seite selbst unsichtbar,
+        # erscheint aber als Absender, wenn jemand einen Link teilt.
+        # Deshalb bewusst korrigiert.
+        og_seite = "Memoria Tierbestattung"
         tw_karte = meta(r'<meta name="twitter:card" content="(.*?)"', "summary_large_image")
         url = self.BASIS_URL + self.pfad(self.page)
 

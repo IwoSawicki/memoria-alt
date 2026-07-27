@@ -21,6 +21,26 @@ import re
 import shutil
 import sys
 
+# Anzeigegroesse je Bild im Nachbau. Danach richtet sich, wie gross die Datei
+# sinnvollerweise sein muss: die doppelte Anzeigegroesse reicht auch auf
+# hochaufloesenden Bildschirmen. Genau so hat es die Originalseite gemacht —
+# Wix hat fuer einen 510x340-Kasten ein 1020x680-Bild ausgeliefert.
+#
+# Beim Titelbild der Startseite steht die Breite des Bildschirms, nicht die
+# des Kastens: es laeuft ueber die volle Fensterbreite.
+ANZEIGE = {
+    "start-hero": (1920, 445),
+    "start-hochformat": (490, 709),
+    "start-ueber-uns": (490, 397),
+    "band-quer": (619, 362),
+    "leistungen-1": (245, 436),
+    "leistungen-2": (245, 436),
+    "kontakt-hunde": (510, 340),
+    "pferdekremierung": (720, 391),
+    "tierurnen": (572, 238),
+    "logo-hell": (312, 279),
+}
+
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 MEDIA = os.path.join(ROOT, "miror-alt", "static.wixstatic.com", "media")
 ORIGINALS = os.path.join(ROOT, "originals")
@@ -78,6 +98,41 @@ MAP = {
     "9d970e_eab4cd8ba69d4859919ff5192b7dffc7~mv2.jpg":
         ("tierurnen", "Tierurnen, 572x238"),
 }
+
+
+def verkleinern(pfad, name):
+    """Bild auf die doppelte Anzeigegroesse bringen, falls es groesser ist.
+
+    Spart Ladezeit, ohne dass man etwas sieht: mehr als die doppelte
+    Anzeigegroesse kann kein Bildschirm darstellen.
+
+    Braucht Pillow. Fehlt es, bleibt das Bild wie es ist — das Ergebnis ist
+    dann nur groesser, nicht falsch.
+    """
+    ziel = ANZEIGE.get(name)
+    if not ziel:
+        return None
+    try:
+        from PIL import Image
+    except ImportError:
+        return "Pillow fehlt"
+
+    im = Image.open(pfad)
+    if im.mode in ("RGBA", "P", "LA"):
+        return None          # Logos mit Transparenz nicht anfassen
+    vorher = os.path.getsize(pfad)
+    max_b, max_h = ziel[0] * 2, ziel[1] * 2
+    if im.width <= max_b and im.height <= max_h and vorher < 120_000:
+        return None          # schon klein genug
+
+    kopie = im.copy()
+    kopie.thumbnail((max_b, max_h), Image.LANCZOS)
+    kopie.save(pfad, "JPEG", quality=82, optimize=True, progressive=True)
+    nachher = os.path.getsize(pfad)
+    if nachher >= vorher:     # nichts gewonnen: Vorlage wiederherstellen
+        im.save(pfad, "JPEG", quality=95, optimize=True)
+        return None
+    return (vorher, nachher, kopie.size)
 
 
 def echtes_format(pfad):
@@ -184,11 +239,38 @@ def main():
             korrigiert.append((name, neu))
             manifest[i] = (neu, kind, size, purpose)
 
+    # Auf eine sinnvolle Groesse bringen
+    verkleinert = []
+    pillow_fehlt = False
+    for i, (name, kind, size, purpose) in enumerate(manifest):
+        stamm = os.path.splitext(name)[0]
+        r = verkleinern(os.path.join(DST, name), stamm)
+        if r == "Pillow fehlt":
+            pillow_fehlt = True
+        elif r:
+            vorher, nachher, groesse = r
+            verkleinert.append((name, vorher, nachher, groesse))
+            manifest[i] = (name, kind, nachher, purpose)
+
     w = max(len(m[0]) for m in manifest)
     print(f"{'Datei':<{w}}  {'Quelle':<28}  {'Groesse':>9}  Verwendung")
     print("-" * (w + 60))
     for f, kind, size, purpose in manifest:
         print(f"{f:<{w}}  {kind:<28}  {size:>8,}B  {purpose}")
+
+    if verkleinert:
+        print()
+        print("Auf die doppelte Anzeigegroesse gebracht:")
+        gespart = 0
+        for name, vorher, nachher, groesse in verkleinert:
+            print(f"   {name:24} {vorher/1024:6.0f} KB -> {nachher/1024:5.0f} KB  "
+                  f"({groesse[0]}x{groesse[1]})")
+            gespart += vorher - nachher
+        print(f"   {'zusammen gespart':24} {gespart/1024:6.0f} KB")
+    if pillow_fehlt:
+        print()
+        print("Hinweis: Pillow ist nicht installiert, die Bilder bleiben in")
+        print("Originalgroesse. Zum Verkleinern:  pip install pillow")
 
     if korrigiert:
         print()
