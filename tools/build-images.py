@@ -3,9 +3,18 @@
 Baut public/assets/img/ aus dem Bildmaterial auf.
 
 Quellenreihenfolge pro Bild:
-  1. bilder-memoria/<datei>        -- vom Kunden gelieferte Originale
-  2. originals/<wix-id>            -- Originaldatei von Wix, volle Aufloesung
+  1. originals/<wix-id>            -- unbeschnittenes Original von Wix
+  2. bilder-memoria/<datei>        -- vom Kunden geliefert
   3. groesste Variante aus dem wget-Mirror
+
+Warum die Wix-Originale zuerst: die gelieferten Bilder sind bereits auf das
+Desktop-Format zugeschnitten. Die Mobilfassung schneidet dieselben Bilder aber
+anders zu — aus einem 4:1-Banner wird dort ein hochkantiger Ausschnitt. Dafuer
+fehlen dem zugeschnittenen Bild schlicht die Bildpunkte. Wix arbeitet mit den
+unbeschnittenen Aufnahmen (etwa 4896x3264) und schneidet je Fassung neu zu —
+genau das macht der Nachbau ueber object-fit: cover auch.
+
+Die Originale holt  bash tools/fetch-missing-images.sh
 
 Hintergrund: Wix laedt Bilder per JavaScript nach. Der wget-Mirror hat deshalb
 bei einem Teil der Bilder nur den unscharfen Platzhalter (LQIP, z.B. 61x41px
@@ -101,38 +110,28 @@ MAP = {
 
 
 def verkleinern(pfad, name):
-    """Bild auf die doppelte Anzeigegroesse bringen, falls es groesser ist.
+    """Bilder werden bewusst NICHT verkleinert.
 
-    Spart Ladezeit, ohne dass man etwas sieht: mehr als die doppelte
-    Anzeigegroesse kann kein Bildschirm darstellen.
+    Ein frueherer Versuch, hier Ladezeit zu sparen, hat die Bilder unscharf
+    gemacht. Der Denkfehler: verkleinert wurde mit thumbnail(), das ein Bild
+    in einen Rahmen HINEINPASST. Angezeigt werden die Bilder aber mit
+    object-fit: cover, das den Rahmen AUSFUELLT und den Rest abschneidet.
+    Fuer cover muss ein Bild in beiden Richtungen gross genug sein — beim
+    Hineinpassen ist es das in einer Richtung nie.
 
-    Braucht Pillow. Fehlt es, bleibt das Bild wie es ist — das Ergebnis ist
-    dann nur groesser, nicht falsch.
+    Beispiel: das Bild bei "Ueber Uns" landete bei 980x424, obwohl allein die
+    Desktop-Fassung 980x794 braucht. Ergebnis: 1,87-fach hochgerechnet.
+
+    Dazu kommt die Mobilfassung. Deren 320px-Flaeche wird vom Handy auf die
+    Bildschirmbreite hochskaliert und dann mit der Pixeldichte gerendert — ein
+    320px breiter Kasten braucht auf einem heutigen Telefon rund 1290 echte
+    Bildpunkte, also gut das Vierfache. Nach dieser Rechnung ist bei fast allen
+    Bildern ohnehin nichts zu holen.
+
+    Die Funktion bleibt als Platzhalter stehen, damit der Grund dokumentiert
+    ist und niemand es unbedacht wieder einbaut.
     """
-    ziel = ANZEIGE.get(name)
-    if not ziel:
-        return None
-    try:
-        from PIL import Image
-    except ImportError:
-        return "Pillow fehlt"
-
-    im = Image.open(pfad)
-    if im.mode in ("RGBA", "P", "LA"):
-        return None          # Logos mit Transparenz nicht anfassen
-    vorher = os.path.getsize(pfad)
-    max_b, max_h = ziel[0] * 2, ziel[1] * 2
-    if im.width <= max_b and im.height <= max_h and vorher < 120_000:
-        return None          # schon klein genug
-
-    kopie = im.copy()
-    kopie.thumbnail((max_b, max_h), Image.LANCZOS)
-    kopie.save(pfad, "JPEG", quality=82, optimize=True, progressive=True)
-    nachher = os.path.getsize(pfad)
-    if nachher >= vorher:     # nichts gewonnen: Vorlage wiederherstellen
-        im.save(pfad, "JPEG", quality=95, optimize=True)
-        return None
-    return (vorher, nachher, kopie.size)
+    return None
 
 
 def echtes_format(pfad):
@@ -191,7 +190,20 @@ def main():
         ext = "." + media_id.rsplit(".", 1)[-1]
         target = os.path.join(DST, name + ext)
 
-        # 1. vom Kunden geliefert
+        # 1. unbeschnittenes Wix-Original
+        orig = os.path.join(ORIGINALS, media_id)
+        if os.path.exists(orig) and os.path.getsize(orig) > 20000:
+            ziel_ext = "." + media_id.rsplit(".", 1)[-1]
+            target = os.path.join(DST, name + ziel_ext)
+            for alt in os.listdir(DST):
+                if alt.startswith(name + ".") and alt != name + ziel_ext:
+                    os.remove(os.path.join(DST, alt))
+            shutil.copy2(orig, target)
+            manifest.append((name + ziel_ext, "Wix-Original",
+                             os.path.getsize(target), purpose))
+            continue
+
+        # 2. vom Kunden geliefert
         gel = GELIEFERTE_DATEI.get(name)
         if gel:
             quelle = os.path.join(GELIEFERT, gel)
@@ -206,12 +218,6 @@ def main():
                 manifest.append((name + ziel_ext, f"geliefert ({gel})",
                                  os.path.getsize(target), purpose))
                 continue
-
-        orig = os.path.join(ORIGINALS, media_id)
-        if os.path.exists(orig) and os.path.getsize(orig) > 5000:
-            shutil.copy2(orig, target)
-            manifest.append((name + ext, "Original", os.path.getsize(target), purpose))
-            continue
 
         vs = variants(media_id)
         if not vs:
