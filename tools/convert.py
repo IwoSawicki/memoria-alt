@@ -35,7 +35,7 @@ def _load(name, fname):
     return m
 
 
-INS = _load("inspect_mod", "inspect.py")
+INS = _load("original_mod", "original.py")
 SPEC = _load("spec_mod", "spec.py")
 IMG = _load("img_mod", "build-images.py")
 

@@ -22,7 +22,7 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 import importlib.util
-_spec = importlib.util.spec_from_file_location("inspect_mod", os.path.join(HERE, "inspect.py"))
+_spec = importlib.util.spec_from_file_location("original_mod", os.path.join(HERE, "original.py"))
 INS = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(INS)
 

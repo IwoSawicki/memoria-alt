@@ -2,18 +2,24 @@
 """
 Inspektor fuer den Wix-Mirror.
 
+Die Datei hiess frueher inspect.py. Das war ein Fehler: Python legt das
+Verzeichnis des laufenden Skripts an den Anfang des Suchpfads, wodurch diese
+Datei das eingebaute Modul "inspect" verdeckte. Jede Bibliothek, die intern
+inspect benutzt — numpy zum Beispiel — brach damit ab. Also nicht
+zurueckbenennen.
+
 Zweck: Fuer den pixelgenauen Nachbau muss jeder Wert (Groesse, Abstand, Farbe,
 Font) aus dem Original belegt sein. Wix legt sein generiertes CSS als Inline-
 <style>-Bloecke in jede Seite. Dieses Tool macht die Werte auslesbar, statt sie
 aus Screenshots schaetzen zu muessen.
 
 Verwendung:
-  python3 tools/inspect.py css   <seite>            alle CSS-Bloecke der Seite
-  python3 tools/inspect.py comp  <seite> <comp-id>  alle Regeln zu einer Komponente
-  python3 tools/inspect.py tree  <seite> [wurzel]   DOM-Baum mit ids/classes
-  python3 tools/inspect.py dom   <seite> <comp-id>  DOM-Subtree einer Komponente
-  python3 tools/inspect.py text  <seite>            reiner Textinhalt
-  python3 tools/inspect.py vars  <seite>            Farb-/Font-Variablen
+  python3 tools/original.py css   <seite>            alle CSS-Bloecke der Seite
+  python3 tools/original.py comp  <seite> <comp-id>  alle Regeln zu einer Komponente
+  python3 tools/original.py tree  <seite> [wurzel]   DOM-Baum mit ids/classes
+  python3 tools/original.py dom   <seite> <comp-id>  DOM-Subtree einer Komponente
+  python3 tools/original.py text  <seite>            reiner Textinhalt
+  python3 tools/original.py vars  <seite>            Farb-/Font-Variablen
 
 <seite> ist der Dateiname ohne .html, z.B. "index" oder "kontakt".
 """

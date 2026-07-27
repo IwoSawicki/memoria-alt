@@ -176,7 +176,7 @@ das nicht, im Ergebnis sofort.
 ### Werkzeuge
 
 ```
-python3 tools/inspect.py css|comp|dom|tree|text <seite>   Original durchsuchen
+python3 tools/original.py css|comp|dom|tree|text <seite>   Original durchsuchen
 python3 tools/spec.py    <seite>                          Sollwerte auslesen
 python3 tools/convert.py <seite> --write                  Seite erzeugen
 python3 tools/check.py   [<seite>]                        gegen Sollwerte pruefen
@@ -210,7 +210,7 @@ done
 
 ### Wenn ein Wert fehlt
 
-Nicht schaetzen. Erst `tools/spec.py` und `tools/inspect.py comp` befragen. Wenn
+Nicht schaetzen. Erst `tools/spec.py` und `tools/original.py comp` befragen. Wenn
 der Wert dort nicht auftaucht, fehlt dem Extraktor eine Regel — dann den
 Extraktor erweitern, nicht den Wert erfinden. Bleibt ein Wert unbelegbar: im
 Code als `/* TODO: Wert unbestaetigt */` markieren und dem Nutzer melden.

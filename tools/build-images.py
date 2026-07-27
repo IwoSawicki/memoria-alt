@@ -3,8 +3,9 @@
 Baut public/assets/img/ aus dem Bildmaterial auf.
 
 Quellenreihenfolge pro Bild:
-  1. originals/<wix-id>            -- Originaldatei von Wix, volle Aufloesung
-  2. groesste Variante aus dem wget-Mirror
+  1. bilder-memoria/<datei>        -- vom Kunden gelieferte Originale
+  2. originals/<wix-id>            -- Originaldatei von Wix, volle Aufloesung
+  3. groesste Variante aus dem wget-Mirror
 
 Hintergrund: Wix laedt Bilder per JavaScript nach. Der wget-Mirror hat deshalb
 bei einem Teil der Bilder nur den unscharfen Platzhalter (LQIP, z.B. 61x41px
@@ -23,6 +24,29 @@ import sys
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 MEDIA = os.path.join(ROOT, "miror-alt", "static.wixstatic.com", "media")
 ORIGINALS = os.path.join(ROOT, "originals")
+GELIEFERT = os.path.join(ROOT, "bilder-memoria")
+
+# Vom Kunden geliefertes Bild je Platz. Die Zuordnung wurde nicht nach
+# Dateinamen geraten, sondern nachgerechnet: die unscharfen Platzhalter aus
+# dem Mirror sind verkleinerte Fassungen der echten Bilder, ein Vergleich der
+# Miniaturen ergab fuer jeden Platz genau einen eindeutigen Treffer.
+#
+# Logo.png ist die nach PNG gewandelte Logo.avif. AVIF zeigen aeltere
+# iPhones (bis iOS 16.3) nicht an, und das Logo steht auf jeder Seite.
+GELIEFERTE_DATEI = {
+    # Logo-rahmen.png ist die gelieferte Logo.avif, gewandelt nach PNG und auf
+    # die Bildflaeche gesetzt, die Wix verwendet hat — siehe
+    # tools/logo-rahmen.py. Ohne das wird das Logo im Kopf angeschnitten.
+    "logo-kopfzeile": "Logo-rahmen.png",
+    "start-hero": "startseite-banner.jpg",
+    "start-hochformat": "startseite-bild1.jpg",
+    "start-ueber-uns": "startseite-bild2.jpeg",
+    "band-quer": "terminbuchen.jpeg",
+    "leistungen-1": "leistungen-1.jpg",
+    "leistungen-2": "leistungen-2.jpg",
+    "kontakt-hunde": "kontakt.jpg",
+    "pferdekremierung": "pferde.jpg",
+}
 DST = os.path.join(ROOT, "public", "assets", "img")
 
 # Wix-Medien-ID -> Zieldateiname (ohne Endung) + Verwendungszweck
@@ -111,6 +135,22 @@ def main():
         ext = os.path.splitext(media_id.split("~")[0])[1] or ".png"
         ext = "." + media_id.rsplit(".", 1)[-1]
         target = os.path.join(DST, name + ext)
+
+        # 1. vom Kunden geliefert
+        gel = GELIEFERTE_DATEI.get(name)
+        if gel:
+            quelle = os.path.join(GELIEFERT, gel)
+            if os.path.exists(quelle):
+                ziel_ext = "." + gel.rsplit(".", 1)[-1]
+                target = os.path.join(DST, name + ziel_ext)
+                # alte Fassung mit anderer Endung entfernen
+                for alt in os.listdir(DST):
+                    if alt.startswith(name + ".") and alt != name + ziel_ext:
+                        os.remove(os.path.join(DST, alt))
+                shutil.copy2(quelle, target)
+                manifest.append((name + ziel_ext, f"geliefert ({gel})",
+                                 os.path.getsize(target), purpose))
+                continue
 
         orig = os.path.join(ORIGINALS, media_id)
         if os.path.exists(orig) and os.path.getsize(orig) > 5000:
