@@ -30,25 +30,22 @@ import re
 import shutil
 import sys
 
-# Anzeigegroesse je Bild im Nachbau. Danach richtet sich, wie gross die Datei
-# sinnvollerweise sein muss: die doppelte Anzeigegroesse reicht auch auf
-# hochaufloesenden Bildschirmen. Genau so hat es die Originalseite gemacht —
-# Wix hat fuer einen 510x340-Kasten ein 1020x680-Bild ausgeliefert.
+# Wie gross eine Bilddatei sein muss, haengt an zwei Dingen: an den Kaesten,
+# in denen sie angezeigt wird, und daran, wie das Geraet diese Kaesten auf
+# echte Bildpunkte abbildet.
 #
-# Beim Titelbild der Startseite steht die Breite des Bildschirms, nicht die
-# des Kastens: es laeuft ueber die volle Fensterbreite.
-ANZEIGE = {
-    "start-hero": (1920, 445),
-    "start-hochformat": (490, 709),
-    "start-ueber-uns": (490, 397),
-    "band-quer": (619, 362),
-    "leistungen-1": (245, 436),
-    "leistungen-2": (245, 436),
-    "kontakt-hunde": (510, 340),
-    "pferdekremierung": (720, 391),
-    "tierurnen": (572, 238),
-    "logo-hell": (312, 279),
-}
+#   Desktop: Faktor 2 deckt hochaufloesende Bildschirme ab.
+#   Mobil:   Die Mobilfassung rechnet mit einer 320px breiten Flaeche, die das
+#            Telefon erst auf die Bildschirmbreite hochskaliert (rund 430
+#            Punkte) und dann mit seiner Pixeldichte (bis 3) rendert. Ein
+#            320px breiter Kasten braucht damit rund 1290 echte Bildpunkte.
+FAKTOR = {"desktop": 2.0, "mobil": 430 / 320 * 3}
+
+# Entscheidend: die Bilder werden mit object-fit: cover angezeigt. Das FUELLT
+# den Kasten AUS und schneidet den Ueberstand ab. Eine Datei ist also nur dann
+# gross genug, wenn sie in BEIDEN Richtungen reicht. Wer hier mit "ins Format
+# einpassen" rechnet, macht die Bilder unscharf — genau das ist schon einmal
+# passiert.
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 MEDIA = os.path.join(ROOT, "miror-alt", "static.wixstatic.com", "media")
@@ -109,7 +106,120 @@ MAP = {
 }
 
 
-def verkleinern(pfad, name):
+def anzeigegroessen():
+    """Welche Bildkaesten es gibt, je Wix-Medien-Kennung.
+
+    Wird aus beiden Spiegeln gelesen, nicht geschaetzt: Wix schreibt zu jedem
+    Bild ein data-image-info-Attribut mit der Zielgroesse, und die einfachen
+    Bildelemente tragen width/height direkt am img-Tag.
+    """
+    import glob
+    import html as _h
+    import json
+
+    raus = {}
+    for verzeichnis, fassung in ((os.path.join(ROOT, "miror-alt"), "desktop"),
+                                 (os.path.join(ROOT, "miror-mobile"), "mobil")):
+        muster = os.path.join(verzeichnis, "www.tierbestattung-memoria.de", "*.html")
+        for datei in glob.glob(muster):
+            text = open(datei, encoding="utf-8", errors="replace").read()
+
+            for m in re.finditer(r'data-image-info="([^"]+)"', text):
+                try:
+                    d = json.loads(_h.unescape(m.group(1)))
+                except ValueError:
+                    continue
+                uri = d.get("imageData", {}).get("uri")
+                tw, th = d.get("targetWidth"), d.get("targetHeight")
+                if uri and tw and th:
+                    raus.setdefault(uri, []).append((fassung, int(tw), int(th)))
+
+            # Einfache Bildelemente (wixui-image) tragen am img-Tag die
+            # NATUERLICHE Groesse, nicht die Anzeigegroesse — auf der
+            # Pferdeseite steht dort 1931x1048 fuer einen 720x391-Kasten.
+            # Die Anzeigegroesse steht im generierten CSS der Komponente,
+            # also dort nachschlagen.
+            seite = os.path.splitext(os.path.basename(datei))[0]
+            alt_mirror = os.environ.get("MIRROR")
+            os.environ["MIRROR"] = os.path.basename(verzeichnis)
+            try:
+                sollwerte = _spec_modul().build(seite)
+            except Exception:
+                sollwerte = {}
+            finally:
+                if alt_mirror is None:
+                    os.environ.pop("MIRROR", None)
+                else:
+                    os.environ["MIRROR"] = alt_mirror
+
+            for m in re.finditer(
+                    r'<div id="(comp-\w+)"[^>]*wixui-image.*?</div>', text, re.S):
+                comp = m.group(1)
+                kennung = re.search(r"([0-9a-f]{6}_[0-9a-f]{32}~mv2\.\w+)", m.group(0))
+                d = sollwerte.get(comp, {})
+                if kennung and d.get("w") and d.get("h"):
+                    raus.setdefault(kennung.group(1), []).append(
+                        (fassung, int(float(d["w"][:-2])), int(float(d["h"][:-2]))))
+    return raus
+
+
+def _spec_modul():
+    """tools/spec.py nachladen — es liest den Spiegel aus der Umgebung."""
+    import importlib.util
+    pfad = os.path.join(os.path.dirname(os.path.abspath(__file__)), "spec.py")
+    sp = importlib.util.spec_from_file_location("spec_fuer_bilder", pfad)
+    m = importlib.util.module_from_spec(sp)
+    sp.loader.exec_module(m)
+    return m
+
+
+_ANZEIGE = None
+
+
+def verkleinern(pfad, media_id):
+    """Bild auf die kleinste Groesse bringen, die ueberall noch scharf ist.
+
+    Gerechnet wird fuer object-fit: cover — die Datei muss in beiden
+    Richtungen reichen. Hochgerechnet wird nie: ist die Vorlage schon zu
+    klein, bleibt sie wie sie ist.
+    """
+    global _ANZEIGE
+    if _ANZEIGE is None:
+        _ANZEIGE = anzeigegroessen()
+
+    faelle = _ANZEIGE.get(media_id)
+    if not faelle:
+        return None
+    try:
+        from PIL import Image
+    except ImportError:
+        return "Pillow fehlt"
+
+    noetig_b = max(round(w * FAKTOR[f]) for f, w, h in faelle)
+    noetig_h = max(round(h * FAKTOR[f]) for f, w, h in faelle)
+
+    im = Image.open(pfad)
+    vorher = os.path.getsize(pfad)
+
+    # So weit verkleinern, dass beide Richtungen gerade noch reichen.
+    skala = max(noetig_b / im.width, noetig_h / im.height)
+    if skala >= 1:
+        return None                      # Vorlage ist schon knapp oder zu klein
+
+    ziel = (max(1, round(im.width * skala)), max(1, round(im.height * skala)))
+    kopie = im.resize(ziel, Image.LANCZOS)
+    if im.format == "PNG" or im.mode in ("RGBA", "P", "LA"):
+        kopie.save(pfad, "PNG", optimize=True)
+    else:
+        kopie.save(pfad, "JPEG", quality=85, optimize=True, progressive=True)
+
+    nachher = os.path.getsize(pfad)
+    if nachher >= vorher:
+        return None
+    return (vorher, nachher, ziel, (noetig_b, noetig_h))
+
+
+
     """Bilder werden bewusst NICHT verkleinert.
 
     Ein frueherer Versuch, hier Ladezeit zu sparen, hat die Bilder unscharf
@@ -248,14 +358,15 @@ def main():
     # Auf eine sinnvolle Groesse bringen
     verkleinert = []
     pillow_fehlt = False
+    NAME_ZU_ID = {n: mid for mid, (n, _) in MAP.items()}
     for i, (name, kind, size, purpose) in enumerate(manifest):
         stamm = os.path.splitext(name)[0]
-        r = verkleinern(os.path.join(DST, name), stamm)
+        r = verkleinern(os.path.join(DST, name), NAME_ZU_ID.get(stamm, ""))
         if r == "Pillow fehlt":
             pillow_fehlt = True
         elif r:
-            vorher, nachher, groesse = r
-            verkleinert.append((name, vorher, nachher, groesse))
+            vorher, nachher, groesse, noetig = r
+            verkleinert.append((name, vorher, nachher, groesse, noetig))
             manifest[i] = (name, kind, nachher, purpose)
 
     w = max(len(m[0]) for m in manifest)
@@ -266,11 +377,11 @@ def main():
 
     if verkleinert:
         print()
-        print("Auf die doppelte Anzeigegroesse gebracht:")
+        print("Auf die noetige Groesse gebracht:")
         gespart = 0
-        for name, vorher, nachher, groesse in verkleinert:
-            print(f"   {name:24} {vorher/1024:6.0f} KB -> {nachher/1024:5.0f} KB  "
-                  f"({groesse[0]}x{groesse[1]})")
+        for name, vorher, nachher, groesse, noetig in verkleinert:
+            print(f"   {name:24} {vorher/1024:7.0f} KB -> {nachher/1024:6.0f} KB  "
+                  f"{groesse[0]}x{groesse[1]}  (noetig {noetig[0]}x{noetig[1]})")
             gespart += vorher - nachher
         print(f"   {'zusammen gespart':24} {gespart/1024:6.0f} KB")
     if pillow_fehlt:
