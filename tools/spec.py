@@ -71,7 +71,9 @@ def build(page):
         # Platzierungsregel eines Inhaltsblocks im Raster des Elternteils.
         # Wiederholungslisten (Repeater) sprechen ihre Eintraege ueber einen
         # Praefix-Selektor an, deshalb beide Schreibweisen beruecksichtigen.
-        ziele = [m.group(1) for m in re.finditer(r'>\s*\[id="(comp-[\w]+)"\]', sel)]
+        # Nicht nur comp-*: Kopfbereich und Menue der Mobilfassung tragen
+        # sprechende Kennungen wie MENU_AS_CONTAINER_TOGGLE.
+        ziele = [m.group(1) for m in re.finditer(r'>\s*\[id="([\w-]+)"\]', sel)]
         ziele += [m.group(1) for m in re.finditer(r'>\s*\[id\^="(comp-[\w]+__)"\]', sel)]
         for cid in ziele:
             mm = MESH_RE.search(blk1)
@@ -123,7 +125,7 @@ def build(page):
         # Nur Regeln, deren Selektor genau die Komponente ist — Regeln wie
         # "#comp-x .icon" beschreiben ein Kindelement und wuerden sonst
         # dessen Groesse faelschlich der Komponente zuschreiben.
-        exact = (re.fullmatch(r"\s*#(comp-[\w]+)\s*", sel)
+        exact = (re.fullmatch(r"\s*#([\w-]+)\s*", sel)
                  or re.fullmatch(r'\s*\[id\^="(comp-[\w]+__)"\]\s*', sel))
         if exact:
             cid = exact.group(1)

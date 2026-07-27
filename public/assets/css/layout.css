@@ -188,6 +188,47 @@
     min-height: var(--min-height, 0);
 }
 
+/* Aufzaehlungen.
+   Der Reset in base.css nimmt Listen ihre Einrueckung — Wix gibt sie ihnen
+   an anderer Stelle zurueck. Ohne diese Regeln sind Listenabsaetze zu breit
+   und brechen an anderen Stellen um, was den ganzen Block verkuerzt. Die
+   Werte stammen aus dem Original: 0.5em am Listenrand, 1.3em je Eintrag. */
+
+.rt ul,
+.rt ol {
+    letter-spacing: normal;
+    line-height: normal;
+    margin-inline: 0.5em 0;
+}
+
+.rt ul {
+    list-style-type: disc;
+}
+
+.rt ol {
+    list-style-type: decimal;
+}
+
+.rt li {
+    margin-inline: 1.3em 0;
+    font-style: inherit;
+    font-weight: inherit;
+    line-height: inherit;
+    letter-spacing: normal;
+}
+
+.rt ul ul,
+.rt ol ul {
+    list-style-type: circle;
+}
+
+.rt ul ul ul,
+.rt ol ul ul,
+.rt ul ol ul,
+.rt ol ol ul {
+    list-style-type: square;
+}
+
 .rt a {
     color: inherit;
 }

@@ -182,7 +182,27 @@ python3 tools/convert.py <seite> --write                  Seite erzeugen
 python3 tools/check.py   [<seite>]                        gegen Sollwerte pruefen
 node     tools/compare.js <seite> [breite]                Geometrie messen und vergleichen
 python3 tools/build-images.py                             Bilder aufbereiten
+python3 tools/htmlcheck.py                                HTML-Struktur pruefen
+python3 tools/linkcheck.py                                Verweise pruefen
 ```
+
+### Zwei Fassungen
+
+Die Originalseite ist nicht responsiv. Wix liefert je nach Geraetekennung
+zwei getrennte Fassungen aus: eine mit 980px Raster und eine mit 320px. Der
+Nachbau macht es genauso.
+
+```
+python3 tools/convert.py <seite> --write              Desktop  -> public/
+MIRROR=miror-mobile python3 tools/convert.py <seite> --mobile --write
+                                                      Mobil    -> public/m/
+node tools/compare.js <seite> 1440                    Desktop pruefen
+node tools/compare.js <seite> --mobile                Mobil pruefen
+```
+
+Die Weiche steht in `docker/nginx.conf`: Telefone bekommen `public/m/`,
+Tablets und Rechner die Desktop-Fassung — genau wie im Original. Die Adresse
+bleibt in beiden Faellen dieselbe.
 
 `compare.js` braucht einmalig Playwright. Es wird nur zum Pruefen benutzt und
 gehoert nicht zum ausgelieferten Stand:

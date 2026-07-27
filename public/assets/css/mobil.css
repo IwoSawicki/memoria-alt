@@ -1,0 +1,177 @@
+/* Mobilfassung.
+   ------------------------------------------------------------------
+   Die Originalseite ist auch auf dem Handy nicht responsiv: Wix liefert
+   dort ein eigenes Layout mit fester Breite von 320px aus und laesst das
+   Geraet es hochskalieren (<meta name="viewport" content="width=320">).
+
+   Diese Datei aendert deshalb nur, was auf die Breite bezogen ist. Das
+   Mesh-Raster aus layout.css bleibt unveraendert — es rechnet mit den
+   Werten, die der Konverter aus der Mobilfassung ausliest. */
+
+/* ---------- Grundbreite ----------
+   layout.css setzt 980px Mindestbreite fuer die Desktop-Fassung. Hier
+   gilt stattdessen die 320px-Flaeche des Originals. */
+
+:root {
+    --site-width: 320px;
+}
+
+.sec,
+.strip,
+.footer {
+    min-width: 320px;
+}
+
+.strip--inset {
+    width: 100%;
+}
+
+/* ---------- Spalten stehen untereinander ----------
+   Der entscheidende Unterschied zur Desktop-Fassung. Wix schaltet den
+   Streifen auf dem Handy von flex auf block, wodurch die Spalten nicht
+   mehr nebeneinander, sondern untereinander liegen. Die Abstaende dazwischen
+   (--margin) stehen bei dieser Seite durchgehend auf 0. */
+
+.strip {
+    display: block;
+    position: relative;
+}
+
+.col {
+    flex: none;
+    width: 100%;
+    margin-bottom: var(--margin, 0px);
+    position: relative;
+}
+
+.footer__inner {
+    width: 320px;
+    margin: 0 auto;
+}
+
+/* ---------- Klapp-Schalter ----------
+   40x40 Flaeche, darin drei 2px starke Striche auf 22x20.
+   Farbe rgb(135,133,117), Uebergang 0,25s — alles aus dem Original. */
+
+.menue-knopf {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    cursor: pointer;
+    background: none;
+    border: 0;
+    padding: 0;
+    z-index: 10000;
+}
+
+.menue-knopf__striche {
+    width: 22px;
+    height: 20px;
+    margin: auto;
+    position: relative;
+    display: block;
+}
+
+.menue-knopf__striche > span {
+    background-color: rgb(135, 133, 117);
+    border-radius: 2px;
+    width: 100%;
+    height: 2px;
+    position: absolute;
+    left: 0;
+    transition: all 0.25s ease-in-out;
+}
+
+.menue-knopf__striche > span:nth-child(1) {
+    top: 0;
+}
+
+.menue-knopf__striche > span:nth-child(2) {
+    margin: auto;
+    top: 0;
+    bottom: 0;
+}
+
+.menue-knopf__striche > span:nth-child(3) {
+    bottom: 0;
+}
+
+/* Im geoeffneten Zustand werden die Striche zum Kreuz. Die beiden
+   Verschiebungen stehen genau so im Original. */
+.menue-knopf[aria-expanded="true"] .menue-knopf__striche > span:nth-child(1) {
+    transform: translateY(10px) translateY(-50%) rotate(-45deg);
+}
+
+.menue-knopf[aria-expanded="true"] .menue-knopf__striche > span:nth-child(2) {
+    opacity: 0;
+}
+
+.menue-knopf[aria-expanded="true"] .menue-knopf__striche > span:nth-child(3) {
+    transform: translateY(-10px) translateY(50%) rotate(45deg);
+}
+
+.menue-knopf[aria-expanded="true"] .menue-knopf__striche > span {
+    background-color: rgb(var(--color_37));
+}
+
+/* ---------- Menueflaeche ----------
+   Abdunklung ueber der Seite aus var(--color_37) mit 60 % Deckkraft,
+   darauf eine 320px breite Flaeche in var(--color_11). */
+
+.menue {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background-color: rgba(var(--color_37), 0.6);
+    overflow-y: auto;
+}
+
+.menue[hidden] {
+    display: none;
+}
+
+.menue__flaeche {
+    width: 320px;
+    min-height: 100%;
+    margin: 0 auto;
+    background-color: rgb(var(--color_11));
+    display: grid;
+    grid-template-columns: 100%;
+    grid-auto-rows: min-content;
+}
+
+.menue__liste ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+/* Eintragshoehe 50px, Schrift font_7 (20px Poppins Semibold), mittig. */
+.menue__link {
+    display: block;
+    height: 50px;
+    line-height: 50px;
+    font: var(--font_7);
+    color: rgb(var(--color_15));
+    text-align: center;
+    text-decoration: none;
+    -webkit-user-select: none;
+    user-select: none;
+    white-space: nowrap;
+}
+
+.menue__link.is-current {
+    color: rgb(var(--color_18));
+}
+
+/* Nur bei echtem Mauszeiger. Auf Touch-Geraeten bleibt ein :hover nach dem
+   Antippen haengen — dann waeren zwei Eintraege gleichzeitig hervorgehoben. */
+@media (hover: hover) {
+    .menue__link:hover {
+        color: rgb(var(--color_18));
+    }
+}
+
+/* Solange das Menue offen ist, soll die Seite darunter nicht scrollen. */
+body.menue-offen {
+    overflow: hidden;
+}

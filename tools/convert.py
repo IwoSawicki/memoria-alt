@@ -25,6 +25,17 @@ from html.parser import HTMLParser
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 
+# Mobilbetrieb muss feststehen, bevor original.py geladen wird — dort wird der
+# Spiegel aus der Umgebungsvariablen MIRROR gelesen.
+MOBIL = "--mobile" in sys.argv
+if MOBIL:
+    os.environ.setdefault("MIRROR", "miror-mobile")
+
+# Seiten der Mobilfassung liegen in public/m/. Von dort aus fuehrt ein
+# Verzeichnis nach oben zu den gemeinsamen Dateien.
+PREFIX = "../" if MOBIL else ""
+AUSGABE = os.path.join(ROOT, "public", "m") if MOBIL else os.path.join(ROOT, "public")
+
 import importlib.util
 
 
@@ -157,7 +168,7 @@ def local_image(src):
     """Wix-Bild-URL -> lokaler Dateiname."""
     for mid, fname in MEDIA_TO_FILE.items():
         if mid in src:
-            return "assets/img/" + fname
+            return PREFIX + "assets/img/" + fname
     return None
 
 
@@ -241,6 +252,10 @@ class Converter:
         # Innenhoehe der Formularfelder (Wix: --inputHeight)
         self.input_heights = dict(
             re.findall(r"#(comp-[\w]+)\{[^}]*--inputHeight:\s*([\d.]+px)", self.html))
+        # Schrift der Feldbeschriftung (Wix: --fntlbl). In der Mobilfassung
+        # ist sie eine Spur groesser als in der Desktop-Fassung.
+        self.label_fonts = dict(
+            re.findall(r"#(comp-[\w]+)\{[^}]*--fntlbl:\s*(normal[^;]+)", self.html))
         t = Tree()
         t.feed(INS.body_dom(self.html))
         self.root = t.root
@@ -588,6 +603,17 @@ class Converter:
             f'{indent(felder, 8)}\n'
             f'    </form>\n</div>')
 
+    def feld_variablen(self, cid):
+        """Innenhoehe und Beschriftungsschrift eines Formularfelds."""
+        teile = []
+        ih = self.input_heights.get(cid)
+        if ih:
+            teile.append(f"--eingabe-hoehe:{ih}")
+        lf = self.label_fonts.get(cid)
+        if lf:
+            teile.append(f"--beschriftung:{lf.strip()}")
+        return "; ".join(teile)
+
     def _label_von(self, n, klasse):
         for el in n.find_all(lambda x: klasse in x.attrs.get("class", "")):
             return el.text.strip()
@@ -614,8 +640,8 @@ class Converter:
             attrs.append(f'maxlength="{maxlen}"')
         if pflicht:
             attrs.append("required")
-        ih = self.input_heights.get(cid)
-        style = style_vars(self.spec, cid, f"--eingabe-hoehe:{ih}" if ih else "")
+        extra = self.feld_variablen(cid)
+        style = style_vars(self.spec, cid, extra)
         return (f'<div data-comp="{cid}" class="mesh field" style="{style}">\n'
                 f'    <label class="field__label" for="feld-{cid}">{H.escape(label)}</label>\n'
                 f'    <div class="field__box"><input {" ".join(attrs)}></div>\n</div>')
@@ -623,8 +649,8 @@ class Converter:
     def emit_text_box(self, n, depth):
         cid = n.attrs.get("id", "")
         label = self._label_von(n, "wixui-text-box__label")
-        ih = self.input_heights.get(cid)
-        style = style_vars(self.spec, cid, f"--eingabe-hoehe:{ih}" if ih else "")
+        extra = self.feld_variablen(cid)
+        style = style_vars(self.spec, cid, extra)
         return (f'<div data-comp="{cid}" class="mesh field" style="{style}">\n'
                 f'    <label class="field__label" for="feld-{cid}">{H.escape(label)}</label>\n'
                 f'    <textarea name="Nachricht" id="feld-{cid}" class="field__textarea"></textarea>\n'
@@ -763,7 +789,63 @@ class Converter:
             return ""
         content = self.content_of(n)
         body = self.emit_children(content, 0)
-        return f'<header class="header">\n{body}\n</header>'
+        kopf = f'<header class="header">\n{body}\n'
+        if MOBIL:
+            kopf += indent(self.emit_menue_knopf(), 4) + "\n"
+        kopf += "</header>"
+        if MOBIL:
+            kopf += "\n\n" + self.emit_menue()
+        return kopf
+
+    def emit_menue_knopf(self):
+        """Der Klapp-Schalter im Kopfbereich der Mobilfassung."""
+        style = style_vars(self.spec, "MENU_AS_CONTAINER_TOGGLE")
+        return (f'<button type="button" class="mesh menue-knopf" data-comp="MENU_AS_CONTAINER_TOGGLE"\n'
+                f'        style="{style}" aria-label="Navigationsmenü öffnen"\n'
+                f'        aria-expanded="false" aria-controls="menue">\n'
+                f'    <span class="menue-knopf__striche">'
+                f'<span></span><span></span><span></span></span>\n'
+                f'</button>')
+
+    def emit_menue(self):
+        """Das aufklappbare Menue der Mobilfassung.
+
+        Wix blendet es per JavaScript ein; im gespiegelten HTML ist es
+        deshalb unsichtbar und laesst sich nicht gegen den Spiegel messen.
+        Masse, Schrift und Farben stammen aber aus dessen CSS: Flaeche
+        320px breit in var(--color_11), darueber eine Abdunklung aus
+        var(--color_37) mit 60 % Deckkraft, Eintraege 50px hoch in
+        var(--font_7), mittig, Farbe var(--color_15).
+        """
+        eintraege = []
+        for href, label, aktuell in self.menue_punkte():
+            markiert = " is-current" if aktuell else ""
+            eintraege.append(f'<li><a class="menue__link{markiert}" href="{H.escape(href)}">'
+                             f'{H.escape(label)}</a></li>')
+        style = style_vars(self.spec, "MENU_AS_CONTAINER_EXPANDABLE_MENU")
+        lis = "\n".join(indent(e, 12) for e in eintraege)
+        return (f'<div class="menue" id="menue" hidden>\n'
+                f'    <div class="menue__flaeche">\n'
+                f'        <nav class="mesh menue__liste" aria-label="Site" style="{style}">\n'
+                f'            <ul>\n{lis}\n            </ul>\n'
+                f'        </nav>\n'
+                f'    </div>\n</div>')
+
+    def menue_punkte(self):
+        """Die Menuepunkte aus dem Spiegel, in Originalreihenfolge."""
+        raus = []
+        frag = INS.find_subtree(INS.body_dom(self.html), "MENU_AS_CONTAINER")
+        if frag is None:
+            return raus
+        for m in re.finditer(r'<a[^>]*href="([^"]+)"[^>]*>(.*?)</a>', frag, re.S):
+            href = m.group(1)
+            label = H.unescape(re.sub(r"<[^>]+>", "", m.group(2))).strip()
+            if not label:
+                continue
+            # Absolute Adressen der eigenen Domain auf Pfade kuerzen
+            href = re.sub(r"^https?://www\.tierbestattung-memoria\.de", "", href) or "/"
+            raus.append((href, label, href == self.pfad(self.page)))
+        return raus
 
     def emit_footer(self):
         n = self.region("SITE_FOOTER")
@@ -785,9 +867,14 @@ class Converter:
     def pfad(self, seite):
         return "/" if seite == "index" else "/" + seite
 
+    def viewport(self):
+        """Die Mobilfassung bringt ihre eigene Angabe mit (width=320)."""
+        m = re.search(r'<meta name="viewport"[^>]*content="([^"]*)"', self.html)
+        return m.group(1) if m else "width=320, user-scalable=yes"
+
     def head(self):
         braucht_formular = "wixui-form" in self.html
-        form_css = ('<link rel="stylesheet" href="assets/css/form.css">\n'
+        form_css = (f'<link rel="stylesheet" href="{PREFIX}assets/css/form.css">\n'
                     if braucht_formular else "")
 
         def meta(muster, standard=""):
@@ -809,17 +896,11 @@ class Converter:
         zeilen = [
             "<!DOCTYPE html>", '<html lang="de">', "<head>",
             '<meta charset="utf-8">',
-            # Notbehelf bis die Mobilfassung vorliegt.
-            # Die Seite ist nicht responsiv und mindestens 980px breit. Mit
-            # width=device-width schneidet das Handy den Inhalt ab und ein
-            # Grossteil der Seite ist unerreichbar. Mit width=980 skaliert das
-            # Handy die ganze Seite herunter: alles ist da und liest sich
-            # zoombar — so wie jede nicht-responsive Seite auf dem Handy.
-            # Auf dem Desktop hat diese Angabe keine Wirkung.
-            # Sobald der Mobil-Mirror vorliegt (tools/mirror-mobile.sh), wird
-            # hier wieder width=device-width gesetzt und die echte
-            # Mobilfassung gebaut.
-            '<meta name="viewport" content="width=980, initial-scale=0.4">',
+            (f'<meta name="viewport" content="{self.viewport()}">' if MOBIL else
+            # Wie im Original. Handys bekommen ueber die Geraeteweiche im
+            # nginx die Mobilfassung, dieser Wert gilt also nur fuer
+            # Desktop-Rechner und Tablets — dort hat er keine Wirkung.
+            '<meta name="viewport" content="width=device-width, initial-scale=1">'),
             f"<title>{titel}</title>",
         ]
         if beschreibung:
@@ -840,22 +921,27 @@ class Converter:
         if og_besch:
             zeilen.append(f'<meta name="twitter:description" content="{og_besch}">')
         zeilen += [
-            '<link rel="icon" sizes="192x192" href="assets/img/favicon.png">',
-            '<link rel="shortcut icon" href="assets/img/favicon.png">',
-            '<link rel="apple-touch-icon" href="assets/img/favicon.png">',
-            '<link rel="stylesheet" href="assets/css/fonts.css">',
-            '<link rel="stylesheet" href="assets/css/tokens.css">',
-            '<link rel="stylesheet" href="assets/css/base.css">',
-            '<link rel="stylesheet" href="assets/css/layout.css">',
+            f'<link rel="icon" sizes="192x192" href="{PREFIX}assets/img/favicon.png">',
+            f'<link rel="shortcut icon" href="{PREFIX}assets/img/favicon.png">',
+            f'<link rel="apple-touch-icon" href="{PREFIX}assets/img/favicon.png">',
+            f'<link rel="stylesheet" href="{PREFIX}assets/css/fonts.css">',
+            f'<link rel="stylesheet" href="{PREFIX}assets/css/tokens.css">',
+            f'<link rel="stylesheet" href="{PREFIX}assets/css/base.css">',
+            f'<link rel="stylesheet" href="{PREFIX}assets/css/layout.css">',
         ]
+        if MOBIL:
+            zeilen.append(f'<link rel="stylesheet" href="{PREFIX}assets/css/mobil.css">')
         kopf = "\n".join(zeilen) + "\n" + form_css
         return kopf + '</head>\n<body>\n<div class="site">'
 
     def full_page(self):
+        skript = (f'\n<script src="{PREFIX}assets/js/menue.js" defer></script>\n'
+                  if MOBIL else "")
         return (self.head() + "\n\n"
                 + self.emit_header() + "\n\n<main>\n\n"
                 + self.run() + "\n\n</main>\n\n"
                 + self.emit_footer() + "\n\n</div>\n"
+                + skript
                 + self.danke_skript()
                 + "</body>\n</html>\n")
 
@@ -913,10 +999,11 @@ def main():
     page = sys.argv[1]
     c = Converter(page)
     if "--write" in sys.argv:
-        ziel = os.path.join(ROOT, "public", page + ".html")
+        os.makedirs(AUSGABE, exist_ok=True)
+        ziel = os.path.join(AUSGABE, page + ".html")
         with open(ziel, "w", encoding="utf-8") as f:
             f.write(c.full_page())
-        print(f"geschrieben: public/{page}.html")
+        print(f"geschrieben: {os.path.relpath(ziel, ROOT)}")
     else:
         print(c.run())
     return 0

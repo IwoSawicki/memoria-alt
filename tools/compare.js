@@ -76,17 +76,22 @@ async function messen(browser, url, selektorBauer, breite, istOriginal) {
 
 (async () => {
   const seite = process.argv[2] || 'index';
-  const breite = parseInt(process.argv[3] || '1440', 10);
+  const mobil = process.argv.includes('--mobile');
+  // Die Mobilfassung des Originals ist auf 320px ausgelegt.
+  const breite = parseInt(process.argv[3] && /^\d+$/.test(process.argv[3])
+    ? process.argv[3] : (mobil ? '320' : '1440'), 10);
 
-  const urlOriginal = 'file://' + path.join(ROOT, 'miror-alt', 'www.tierbestattung-memoria.de', seite + '.html');
-  const urlNachbau = 'file://' + path.join(ROOT, 'public', seite + '.html');
+  const spiegel = mobil ? 'miror-mobile' : 'miror-alt';
+  const nachbau = mobil ? path.join('public', 'm') : 'public';
+  const urlOriginal = 'file://' + path.join(ROOT, spiegel, 'www.tierbestattung-memoria.de', seite + '.html');
+  const urlNachbau = 'file://' + path.join(ROOT, nachbau, seite + '.html');
 
   const browser = await chromium.launch({ executablePath: EXE, args: ['--no-sandbox'] });
   const orig = await messen(browser, urlOriginal, null, breite, true);
   const neu = await messen(browser, urlNachbau, null, breite, false);
   await browser.close();
 
-  console.log(`Seite: ${seite}   Breite: ${breite}px`);
+  console.log(`Seite: ${seite}   Breite: ${breite}px${mobil ? '   (Mobilfassung)' : ''}`);
   console.log(`Gesamthoehe   Original ${orig.hoehe}px   Nachbau ${neu.hoehe}px   ` +
               `Differenz ${neu.hoehe - orig.hoehe}px`);
   console.log('');

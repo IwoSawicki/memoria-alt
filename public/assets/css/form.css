@@ -31,11 +31,15 @@
 }
 
 /* Die Beschriftung nutzt zwar font_8 (15px/1.88em), Wix setzt die
-   Zeilenhoehe aber auf die Schriftgroesse zurueck — daraus ergeben sich
-   genau 15px Hoehe. Ohne das waere jedes Feld 13px zu hoch. */
+   Zeilenhoehe aber auf die Schriftgroesse zurueck. Ohne das waere jedes
+   Feld rund 13px zu hoch.
+   line-height: 1 statt eines festen Werts, damit es auch in der
+   Mobilfassung stimmt — dort ist die Beschriftung eine Spur groesser. */
 .field__label {
-    font: var(--font_8);
-    line-height: 15px;
+    /* --beschriftung kommt aus der Komponente (Wix: --fntlbl). In der
+       Mobilfassung ist die Beschriftung 16px statt 15px. */
+    font: var(--beschriftung, var(--font_8));
+    line-height: 1;
     color: rgb(var(--color_37));
     margin-bottom: 9px;
     padding: 0px 20px 0px 0px;

@@ -51,6 +51,16 @@ DEFAULTS = {"mt": "0px", "mb": "0px", "l": "0px"}
 # die Abstaende oben und unten.
 STRIP_VARS = ("mt", "mb")
 
+# Wix' aeussere Geruest-Container. Sie tragen keine eigene Gestaltung, sondern
+# halten nur die Seite zusammen; der Nachbau hat dafuer eine eigene Struktur.
+# Sie fehlen also mit Absicht und sollen nicht als Abweichung erscheinen.
+GERUEST = {
+    "masterPage", "SITE_HEADER", "SITE_FOOTER", "SITE_PAGES",
+    "PAGES_CONTAINER", "SITE_CONTAINER", "BACKGROUND_GROUP",
+    "SCROLL_TO_TOP", "SCROLL_TO_BOTTOM", "site-root",
+    "MENU_AS_CONTAINER", "QUICK_ACTION_BAR",
+}
+
 
 def norm(v):
     if v is None:
@@ -132,7 +142,10 @@ def check_page(build_file, orig_page):
     # Bloecke, die es im Original gibt, im Nachbau aber nicht
     positioned = {c for c, v in want.items()
                   if ("c" in v and "m" in v) or str(v.get("kind", "")).startswith("strip")}
-    missing = positioned - set(got)
+    missing = positioned - set(got) - GERUEST
+    # Seiten-Container heissen wie die Wix-Seitenkennung (fuenf Zeichen,
+    # z.B. "rmz7o") und gehoeren ebenfalls zum Geruest.
+    missing = {c for c in missing if not re.fullmatch(r"[a-z0-9]{5}", c)}
     # Kopf- und Fussbereich sind auf jeder Seite gleich und werden separat
     # geprueft; hier nur melden, was zur Seite selbst gehoert.
     for cid in sorted(missing):
